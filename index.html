@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>PooyaWeathe</title>
+  </head>
+  <body>
+    <main>
+      <div class="search_container">
+        <input
+          class="ipt_search"
+          type="text"
+          placeholder="Your lacation name here"
+        />
+        <button class="btn btn-search">
+          <ion-icon class="icon icon-ipt" name="search-outline"></ion-icon>Find
+          location
+        </button>
+      </div>
+      <div class="result_container">
+        <div class="user_location">
+          <div class="location_detail">
+            <p class="location_name">Ougadougou,<br />Burkina Faso</p>
+            <p class="date">25 Septembre 2023</p>
+          </div>
+          <p class="location_weather_description">
+            <span class="location_temp">10°</span>Clearly cloudy
+          </p>
+          <img class="weather_img" src="https://openweathermap.org/img/wn/02d@2x.png" alt="weather icon">
+        </div>
+
+        <div class="user_location">
+          <div class="location_detail">
+            <p class="location_name">Accra<br />Ghana</p>
+            <p class="date">25 Septembre 2023</p>
+          </div>
+          <p class="location_weather_description">
+            <span class="location_temp">35°</span>Sunny
+          </p>
+          <img class="weather_img" src="https://openweathermap.org/img/wn/01d@2x.png" alt="weather icon">
+        </div>
+
+        <div class="user_location">
+          <div class="location_detail">
+            <p class="location_name">Melbourne<br />Autralia</p>
+            <p class="date">24 Septembre 2023</p>
+          </div>
+          <p class="location_weather_description">
+            <span class="location_temp">-1°</span>snow
+          </p>
+          <img class="weather_img" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+
+        </div>
+      </div>
+    </main>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+  <script src="script.js"></script>
+</html>
