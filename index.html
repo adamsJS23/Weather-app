@@ -16,17 +16,23 @@
   <body>
     <main>
       <div class="search_container">
-        <ion-icon class="icon icon-ipt" name="search-outline"></ion-icon><input
-          class="ipt_search"
-          type="text"
-          placeholder="Your lacation name here"
-        />
+        <div class="input_box">
+          <ion-icon class="icon icon-ipt" name="search-outline"></ion-icon
+          ><input
+            class="ipt_search"
+            type="text"
+            placeholder="Your lacation name here"
+          />
+        </div>
         <button class="btn btn-search">
           <ion-icon class="icon icon-search" name="add-outline"></ion-icon>
         </button>
+        <button class="btn btn-home hidden">
+          <ion-icon class="icon icon-home" name="home-outline"></ion-icon>
+        </button>
       </div>
       <div class="result_container">
-        <div class="user_location">
+        <div class="location">
           <div class="location_detail">
             <p class="location_name">
               <ion-icon
@@ -35,19 +41,19 @@
               ></ion-icon
               >Ougadougou,<br />Burkina Faso
             </p>
-            <p class="date">25 Septembre 2023</p>
+            <p class="forecast_date">25 Septembre</p>
           </div>
-          <p class="location_weather_description">
-            <span class="location_temp">10°</span>Clearly cloudy
+          <p class="weather_description">
+            <span class="weather_temp">10°</span>Clearly cloudy
           </p>
           <img
             class="weather_img"
             src="https://openweathermap.org/img/wn/02d@2x.png"
-            alt="weather icon"
+            alt="Current weather icon"
           />
         </div>
 
-        <div class="user_location">
+        <div class="location">
           <div class="location_detail">
             <p class="location_name">
               <ion-icon
@@ -56,19 +62,19 @@
               ></ion-icon
               >Accra,<br />Ghana
             </p>
-            <p class="date">25 Septembre 2023</p>
+            <p class="forecast_date">25 Septembre</p>
           </div>
-          <p class="location_weather_description">
-            <span class="location_temp">35°</span>Sunny
+          <p class="weather_description">
+            <span class="weather_temp">35°</span>Sunny
           </p>
           <img
             class="weather_img"
             src="https://openweathermap.org/img/wn/01d@2x.png"
-            alt="weather icon"
+            alt="Current weather icon"
           />
         </div>
 
-        <div class="user_location">
+        <div class="location">
           <div class="location_detail">
             <p class="location_name">
               <ion-icon
@@ -77,21 +83,21 @@
               ></ion-icon
               >Melbourne,<br />Autralia
             </p>
-            <p class="date">24 Septembre 2023</p>
+            <p class="forecast_date">24 Septembre</p>
           </div>
-          <p class="location_weather_description">
-            <span class="location_temp">-1°</span>snow
+          <p class="weather_description">
+            <span class="weather_temp">-1°</span>heavy shower rain and drizzle
           </p>
           <img
             class="weather_img"
             src="https://openweathermap.org/img/wn/02d@2x.png"
-            alt=""
+            alt="Current weather icon"
           />
         </div>
 
-        <div class="user_location_detail">
-          <div class="user_location">
-            <div class="location_detail">
+        <div class="section section-1">
+          <div class="location">
+            <div class="location_header">
               <p class="location_name">
                 <ion-icon
                   class="icon icon-location"
@@ -99,76 +105,76 @@
                 ></ion-icon
                 ><span>Melbourne,<br />Autralia</span>
               </p>
-              <p class="date">24 Septembre 2023</p>
+              <p class="forecast_date">24 Septembre 2023</p>
             </div>
-            <p class="location_weather_description">
-              <span class="location_temp">-1°</span>snow
+            <p class="weather_description">
+              <span class="weather_temp">-1°</span>snow
             </p>
             <img
               class="weather_img"
               src="https://openweathermap.org/img/wn/02d@2x.png"
-              alt=""
+              alt="Current weather icon"
             />
-            <div class="location_detail--2">
-              <div class="detail_box">
+            <div class="location_more_info">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="sunny-outline"
                 ></ion-icon>
-                <span class="detail_value">73</span>
+                <span class="more_info_value">73</span>
                 <span>uv</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="thermometer-outline"
                 ></ion-icon>
-                <span class="detail_value">17°</span>
+                <span class="more_info_value">17°</span>
                 <span>feels like</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="umbrella-outline"
                 ></ion-icon>
-                <span class="detail_value">25%</span>
+                <span class="more_info_value">25<span class="more_info_unit">%</span></span>
                 <span>rainfall</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="water-outline"
                 ></ion-icon>
-                <span class="detail_value">56%</span>
+                <span class="more_info_value">56<span class="more_info_unit">%</span></span>
                 <span>humidity</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="golf-outline"
                 ></ion-icon>
-                <span class="detail_value">27Km/h</span>
+                <span class="more_info_value">27<span class="more_info_unit">Km/h</span></span>
                 <span>wind</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="invert-mode-outline"
                 ></ion-icon>
-                <span class="detail_value">35</span>
+                <span class="more_info_value">35</span>
                 <span>pressure</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="eye-outline"
                 ></ion-icon>
-                <span class="detail_value">10km</span>
+                <span class="more_info_value">10<span class="more_info_unit">Km</span></span>
                 <span>visibilty</span>
               </div>
-              <div class="detail_box">
+              <div class="more_info_box">
                 <ion-icon
-                  class="icon icon-detail"
+                  class="icon icon-more_info"
                   name="grid-outline"
                 ></ion-icon>
                 <span>close</span>
@@ -176,169 +182,161 @@
             </div>
           </div>
         </div>
-        <div class="line_box">
-          <div class="line--10"></div>
-          <div class="line--2"></div>
-          <div class="line--2"></div>
+        <div class="line_1">
+          <div class="line-long"></div>
+          <div class="line-short"></div>
+          <div class="line-short"></div>
         </div>
-        <div class="section--2">
-          <ul class="list">
-            <li class="list_item list_item--active">Today</li>
-            <li class="list_item">Tomorrow</li>
-            <li class="list_item list_item--3">Next 7 days</li>
+        <div class="section section-2">
+          <ul class="list_1">
+            <li class="list_1_item list_1_item--active">Today<div class="dot dot-1 dot-active"></div></li>
+            <li class="list_1_item">Tomorrow<div class="dot dot-2"></div></li>
+            <li class="list_1_item list_1_item--3">Next 7 days<div class="dot dot-3"></div></li>
           </ul>
           <div class="hourly_forecast">
-            <div class="hour_forecast">
+            <div class="forecast">
               <span>12pm</span>
               <img
                 class="weather_img_tiny"
                 src="https://openweathermap.org/img/wn/02d@2x.png"
-                alt=""
+                alt="weather icon"
               />
               <span>10°</span>
             </div>
-            <div class="hour_forecast">
+            <div class="forecast">
               <span>12pm</span>
               <img
                 class="weather_img_tiny"
                 src="https://openweathermap.org/img/wn/02d@2x.png"
-                alt=""
+                alt="weather icon"
               />
               <span>10°</span>
             </div>
-            <div class="hour_forecast active_forecast">
+            <div class="forecast forecast_hour-active">
               <span>12pm</span>
               <img
                 class="weather_img_tiny"
                 src="https://openweathermap.org/img/wn/02d@2x.png"
-                alt=""
+                alt="weather icon"
               />
               <span>10°</span>
             </div>
-            <div class="hour_forecast">
+            <div class="forecast">
               <span>12pm</span>
               <img
                 class="weather_img_tiny"
                 src="https://openweathermap.org/img/wn/02d@2x.png"
-                alt=""
+                alt="weather icon"
               />
               <span>10°</span>
             </div>
-            <div class="hour_forecast">
+            <div class="forecast">
               <span>12pm</span>
               <img
                 class="weather_img_tiny"
                 src="https://openweathermap.org/img/wn/02d@2x.png"
-                alt=""
+                alt="weather icon"
               />
               <span>10°</span>
             </div>
           </div>
           <div class="location_weather_map"></div>
           <div class="next_7_days">
-            <ul class="list__2">
-              <li class="list__2__item">
+            <ul class="list_2">
+              <li class="list_2_item">
                 <span>Today</span>
-                <span class="re_align">25</span>
+                <span class="align_left">25</span>
                 <span>8°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>6°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/02d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Wed</span>
-                <span class="re_align">26</span>
+                <span class="align_left">26</span>
                 <span>34°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>5°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/01d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Thu</span>
-                <span class="re_align">27</span>
+                <span class="align_left">27</span>
                 <span>1°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>18°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/11d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Fri</span>
-                <span class="re_align">28</span>
+                <span class="align_left">28</span>
                 <span>35°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>7°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/09d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Sat</span>
-                <span class="re_align">29</span>
+                <span class="align_left">29</span>
                 <span>25°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>0°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/13d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Sun</span>
-                <span class="re_align">30</span>
+                <span class="align_left">30</span>
                 <span>13°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>8°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/50d@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Sun</span>
-                <span class="re_align">31</span>
+                <span class="align_left">31</span>
                 <span>19°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>3°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/03n@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
-              <li class="list__2__item">
+              <li class="list_2_item">
                 <span>Mon</span>
-                <span class="re_align">01</span>
+                <span class="align_left">01</span>
                 <span>37°</span>
-                <div class="line__box--2">
-                </div>
+                <div class="line_2"></div>
                 <span>18°</span>
                 <img
                   class="weather_img_tiny"
                   src="https://openweathermap.org/img/wn/01n@2x.png"
-                  alt=""
+                  alt="weather icon"
                 />
               </li>
             </ul>
