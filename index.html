@@ -11,12 +11,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./src/style.css" />
-  <script defer type="module" src="controler.js"></script>
+    <script defer type="module" src="controler.js"></script>
 
-    <title>PooyaWeathe</title>
+    <title>PooyaWeather</title>
   </head>
   <body>
-    <main>
+    <main class="main">
       <div class="search_container">
         <div class="input_box">
           <ion-icon class="icon icon-ipt" name="search-outline"></ion-icon
@@ -34,68 +34,26 @@
         </button>
       </div>
       <div class="result_container">
-        <div class="location">
-          <div class="location_detail">
-            <p class="location_name">
-              <ion-icon
-                class="icon icon-location"
-                name="location-outline"
-              ></ion-icon
-              >Ougadougou,<br />Burkina Faso
+        <div class="location" data-lat="12.1871662" data-lon="-1.3996575" data-locationName="koubri">
+            <div class="location_detail">
+              <p class="location_name">
+                <ion-icon
+                  class="icon icon-location"
+                  name="location-outline"
+                ></ion-icon
+                >Ougadougou,<br />Burkina Faso
+              </p>
+              <p class="forecast_date">25 Septembre</p>
+            </div>
+            <p class="weather_description">
+              <span class="weather_temp">10°</span>Clearly cloudy
             </p>
-            <p class="forecast_date">25 Septembre</p>
-          </div>
-          <p class="weather_description">
-            <span class="weather_temp">10°</span>Clearly cloudy
-          </p>
-          <img
-            class="weather_img"
-            src="https://openweathermap.org/img/wn/02d@2x.png"
-            alt="Current weather icon"
-          />
-        </div>
-
-        <div class="location">
-          <div class="location_detail">
-            <p class="location_name">
-              <ion-icon
-                class="icon icon-location"
-                name="location-outline"
-              ></ion-icon
-              >Accra,<br />Ghana
-            </p>
-            <p class="forecast_date">25 Septembre</p>
-          </div>
-          <p class="weather_description">
-            <span class="weather_temp">35°</span>Sunny
-          </p>
-          <img
-            class="weather_img"
-            src="https://openweathermap.org/img/wn/01d@2x.png"
-            alt="Current weather icon"
-          />
-        </div>
-
-        <div class="location">
-          <div class="location_detail">
-            <p class="location_name">
-              <ion-icon
-                class="icon icon-location"
-                name="location-outline"
-              ></ion-icon
-              >Melbourne,<br />Autralia
-            </p>
-            <p class="forecast_date">24 Septembre</p>
-          </div>
-          <p class="weather_description">
-            <span class="weather_temp">-1°</span>heavy shower rain and drizzle
-          </p>
-          <img
-            class="weather_img"
-            src="https://openweathermap.org/img/wn/02d@2x.png"
-            alt="Current weather icon"
-          />
-        </div>
+            <img
+              class="weather_img"
+              src="https://openweathermap.org/img/wn/02d@2x.png"
+              alt="Current weather icon"
+            /></div
+        >
 
         <div class="section section-1">
           <div class="location">
@@ -139,7 +97,9 @@
                   class="icon icon-more_info"
                   name="umbrella-outline"
                 ></ion-icon>
-                <span class="more_info_value">25<span class="more_info_unit">%</span></span>
+                <span class="more_info_value"
+                  >25<span class="more_info_unit">%</span></span
+                >
                 <span>rainfall</span>
               </div>
               <div class="more_info_box">
@@ -147,7 +107,9 @@
                   class="icon icon-more_info"
                   name="water-outline"
                 ></ion-icon>
-                <span class="more_info_value">56<span class="more_info_unit">%</span></span>
+                <span class="more_info_value"
+                  >56<span class="more_info_unit">%</span></span
+                >
                 <span>humidity</span>
               </div>
               <div class="more_info_box">
@@ -155,7 +117,9 @@
                   class="icon icon-more_info"
                   name="golf-outline"
                 ></ion-icon>
-                <span class="more_info_value">27<span class="more_info_unit">Km/h</span></span>
+                <span class="more_info_value"
+                  >27<span class="more_info_unit">Km/h</span></span
+                >
                 <span>wind</span>
               </div>
               <div class="more_info_box">
@@ -171,7 +135,9 @@
                   class="icon icon-more_info"
                   name="eye-outline"
                 ></ion-icon>
-                <span class="more_info_value">10<span class="more_info_unit">Km</span></span>
+                <span class="more_info_value"
+                  >10<span class="more_info_unit">Km</span></span
+                >
                 <span>visibilty</span>
               </div>
               <div class="more_info_box">
@@ -191,9 +157,18 @@
         </div>
         <div class="section section-2">
           <ul class="list_1">
-            <li class="list_1_item list_1_item--active">Today<div class="dot dot-1 dot-active"></div></li>
-            <li class="list_1_item">Tomorrow<div class="dot dot-2"></div></li>
-            <li class="list_1_item list_1_item--3">Next 7 days<div class="dot dot-3"></div></li>
+            <li class="list_1_item list_1_item--active">
+              Today
+              <div class="dot dot-1 dot-active"></div>
+            </li>
+            <li class="list_1_item">
+              Tomorrow
+              <div class="dot dot-2"></div>
+            </li>
+            <li class="list_1_item list_1_item--3">
+              Next 7 days
+              <div class="dot dot-3"></div>
+            </li>
           </ul>
           <div class="hourly_forecast">
             <div class="forecast">
