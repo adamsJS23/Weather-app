@@ -11,6 +11,7 @@ class LocationView {
     );
   }
   _generateMarkup(data) {
+    console.log(data);
     return `<div class="section section-1">
     <div class="location">
       <div class="location_header">
@@ -24,11 +25,13 @@ class LocationView {
         <p class="forecast_date">${data.date}</p>
       </div>
       <p class="weather_description">
-        <span class="weather_temp">${data.temp}°</span>${data.weatherDescription}
+        <span class="weather_temp">${data.temp}°</span>${
+      data.weatherDescription
+    }
       </p>
       <img
         class="weather_img"
-        src="https://openweathermap.org/img/wn/02d@2x.png"
+        src="https://openweathermap.org/img/wn/${data.icon}.png"
         alt="Current weather icon"
       />
       <div class="location_more_info">
@@ -128,49 +131,51 @@ class LocationView {
         <div class="dot dot-3"></div>
       </li>
     </ul>
-    <div class="hourly_forecast">${this._generateHourlyForecastMarkup(
-      data.hourly
-    )}
+    <div class="hourly_forecast">${this._generateHourlyForecastMarkup(data)}
       
     </div>
     <div class="location_weather_map"></div>
     <div class="next_7_days">
       <ul class="list_2">
-        ${this._generateDailyForecastMarkuk(data.daily)}   
+        ${this._generateDailyForecastMarkuk(data)}   
       </ul>
     </div>
   </div>`;
   }
 
   _generateHourlyForecastMarkup(data) {
-    // return data.map(
-    //   (hourForecast) => `<div class="forecast">
-    //           <span>${hourForecast.hour}</span>
-    //           <img
-    //             class="weather_img_tiny"
-    //             src="https://openweathermap.org/img/wn/02d@2x.png"
-    //             alt="weather icon"
-    //           />
-    //           <span>${hourForecast.temp}°</span>
-    //         </div>`
-    // );
+    const { hourly } = data;
+    return hourly.map(
+      (hourForecast) => `<div class="forecast">
+              <span>${hourForecast.hour}</span>
+              <img
+                class="weather_img_tiny"
+                src="https://openweathermap.org/img/wn/${hourForecast.icon}.png"
+                alt="weather icon"
+              />
+              <span>${hourForecast.temp}°</span>
+            </div>`
+    ).join('');
   }
 
   _generateDailyForecastMarkuk(data) {
-    // return data.map(
-    //   (dayForecast) => `<li class="list_2_item">
-    //                                 <span>${dayForecast.dayLong}</span>
-    //                                 <span class="align_left">${dayForecast.dayNumeric}</span>
-    //                                 <span>${dayForecast.tempMin}°</span>
-    //                                 <div class="line_2"></div>
-    //                                 <span>${dayForecast.tempMax}°</span>
-    //                                 <img
-    //                                   class="weather_img_tiny"
-    //                                   src="https://openweathermap.org/img/wn/02d@2x.png"
-    //                                   alt="weather icon"
-    //                                 />
-    //                               </li>  `
-    // );
+    const { daily } = data;
+    return daily
+      .map(
+        (dayForecast) => `<li class="list_2_item">
+    <span>${dayForecast.dayLong}</span>
+    <span class="align_left">${dayForecast.dayNumeric}</span>
+    <span>${dayForecast.min}°</span>
+    <div class="line_2"></div>
+    <span>${dayForecast.max}°</span>
+    <img
+      class="weather_img_tiny"
+      src="https://openweathermap.org/img/wn/${dayForecast.icon}.png"
+      alt="weather icon"
+    />
+  </li>`
+      )
+      .join("");
   }
 
   addHandlerClick(handler) {
@@ -181,7 +186,7 @@ class LocationView {
       const { lat, lon, locationName, countryName } =
         e.target.closest(".location").dataset;
 
-        console.log(lat, lon, locationName, countryName )
+      console.log(lat, lon, locationName, countryName);
       handler({ lat, lon, locationName, countryName });
     });
   }

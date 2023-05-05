@@ -40,7 +40,7 @@ export async function findLocation(query) {
     countryName: countryData[0].name.common,
     locationLat: geocodeData[0].lat,
     locationLon: geocodeData[0].lon,
-    temp: weatherData.current.temp,
+    temp: Math.round(weatherData.current.temp),
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
     icon: weatherData.current.weather[0].icon,
@@ -57,11 +57,31 @@ export async function displayLocation(obj) {
       .slice(-2)
       .toLowerCase()}&units=metric&appid=${API_KEY}`
   );
-  console.log(weatherData)
+  console.log(weatherData);
+  const forecastHourly = weatherData.hourly.map((hourForecast) => {
+    const hour = new Date(hourForecast.dt * 1000).getHours();
+    const temp = Math.round(hourForecast.temp);
+    const { icon } = hourForecast.weather[0];
+    console.log(icon);
+    return { hour, temp, icon };
+  });
+
+  const forecastDaily = weatherData.daily.map((dayForecast) => {
+    const unixTimestamp = dayForecast.dt * 1000;
+    const dayNumeric = new Date(unixTimestamp).getDate();
+    const dayLong = new Intl.DateTimeFormat(navigator.language, {
+      weekday: "long",
+    }).format(unixTimestamp);
+    const min = Math.round(dayForecast.temp.min);
+    const max = Math.round(dayForecast.temp.max);
+    const icon = dayForecast.weather[0].icon;
+    return { min, max, dayLong, dayNumeric, icon };
+  });
+
   state.locationCompleteDate = {
     locationName: locationName,
     countryName: countryName,
-    temp: weatherData.current.temp,
+    temp: Math.round(weatherData.current.temp),
     visibility: weatherData.current.visibility,
     uvi: weatherData.current.uvi,
     humidity: weatherData.current.humidity,
@@ -72,9 +92,11 @@ export async function displayLocation(obj) {
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
     icon: weatherData.current.weather[0].icon,
+    hourly: forecastHourly,
+    daily: forecastDaily,
   };
 
-  console.log(state.locationCompleteDate)
+  console.log(state.locationCompleteDate);
 }
 
 function extractDate(unixTimestamp) {

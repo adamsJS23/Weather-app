@@ -84,6 +84,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  min-height:  100vh;;
 }
 
 .location {
@@ -129,6 +131,8 @@ main {
 }
 
 .weather_img {
+  width: 7rem;
+  height: 7rem;
   position: absolute;
   top: 0;
   right: 0;

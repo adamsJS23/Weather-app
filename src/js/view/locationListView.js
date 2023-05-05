@@ -4,7 +4,10 @@ class LocationListView {
   _ParentContainer = document.querySelector(".result_container");
   _data;
   getQuery() {
-    return this._iptAdd.value;
+    const query=this._iptAdd.value;
+    this._iptAdd.value='';
+    this._iptAdd.blur();
+    return query
   }
   render(data) {
     this._data = data;
@@ -16,6 +19,7 @@ class LocationListView {
     );
   }
   _generateMarkup(data) {
+    console.log(data)
     return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-lat="${data.locationLat}" data-lon="${data.locationLon}" >
                 <div class="location_detail">
                   <p class="location_name">
@@ -32,7 +36,7 @@ class LocationListView {
                 </p>
                 <img
                   class="weather_img"
-                  src="https://openweathermap.org/img/wn/02d@2x.png"
+                  src="https://openweathermap.org/img/wn/${data.icon}.png"
                   alt="Current weather icon"
                 /></div
             >`;
