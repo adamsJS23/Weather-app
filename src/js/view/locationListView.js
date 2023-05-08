@@ -1,25 +1,26 @@
 class LocationListView {
-  _btnAdd = document.querySelector(".btn-add");
+  _btnApp = document.querySelector(".btn-app");
   _iptAdd = document.querySelector(".ipt-add");
   _ParentContainer = document.querySelector(".result_container");
   _data;
+
   getQuery() {
-    const query=this._iptAdd.value;
-    this._iptAdd.value='';
+    const query = this._iptAdd.value;
+    this._iptAdd.value = "";
     this._iptAdd.blur();
-    return query
+    return query;
   }
+
   render(data) {
     this._data = data;
-    console.log("data would rendered in a minute");
-
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
       this._generateMarkup(this._data)
     );
   }
+
   _generateMarkup(data) {
-    console.log(data)
+    console.log(data);
     return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-lat="${data.locationLat}" data-lon="${data.locationLon}" >
                 <div class="location_detail">
                   <p class="location_name">
@@ -36,13 +37,16 @@ class LocationListView {
                 </p>
                 <img
                   class="weather_img"
-                  src="https://openweathermap.org/img/wn/${data.icon}.png"
+                  src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
                   alt="Current weather icon"
                 /></div
             >`;
   }
   addHandlerAdd(handler) {
-    this._btnAdd.addEventListener("click", () => handler());
+    this._btnApp.addEventListener("click", function (e) {
+      if (!e.target.classList.contains("icon-add")) return;
+      handler();
+    });
   }
 
   addHandlerEnter(handler) {

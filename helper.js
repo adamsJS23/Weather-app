@@ -1,10 +1,12 @@
 export async function fetchData(url) {
   try {
     const response = await fetch(url);
-    if (!response.ok) return;
+    if (!response.ok) {
+      throw new Error(`Something went wrong ${response.status} ${response.statusText}`);
+    }
     const data = await response.json();
-    return data
+    return data;
   } catch (err) {
-    console.log("Impossible to fetch");
+    throw err;
   }
 }

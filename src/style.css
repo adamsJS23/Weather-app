@@ -66,10 +66,10 @@ main {
   border-radius: 50%;
 }
 
-.btn-add,
-.btn-home {
+.btn-app {
   color: #eaebec;
   background-color: #151c20;
+  cursor: pointer;
 }
 
 .icon-add {
@@ -85,16 +85,21 @@ main {
   flex-direction: column;
   gap: 0.8rem;
 
-  min-height:  100vh;;
+  min-height: 100vh;
 }
 
-.location {
+.location,
+.location_complete_info {
   position: relative;
   background-image: linear-gradient(to right, #db9864, #db6464);
   color: #fbf5f0;
   padding: 1.2rem;
   border-radius: 9px;
   cursor: pointer;
+}
+
+.location_complete_info {
+  cursor: default;
 }
 
 .icon-location {
@@ -131,8 +136,8 @@ main {
 }
 
 .weather_img {
-  width: 7rem;
-  height: 7rem;
+  width: 9rem;
+  height: 9rem;
   position: absolute;
   top: 0;
   right: 0;
@@ -217,19 +222,60 @@ main {
   align-items: center;
   gap: 0.4rem;
   color: #6a7479;
+  cursor: pointer;
 }
 
-.list_1_item--active,.dot-active {
+.list_1_item--active {
   color: #eaebec;
+}
+
+.dot-active {
+  background-color: #eaebec;
 }
 
 .list_1_item--3 {
   margin-left: auto;
 }
 
+.hourly_forecast_box {
+  position: relative;
+  /* margin: 5rem 0; */
+}
+
 .hourly_forecast {
+  width: 25.2rem;
   display: flex;
+  justify-content: center;
   gap: 0.6rem;
+  flex: 0 0 100%;
+  overflow: hidden;
+  /* position: relative; */
+}
+
+.arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: #eaebec;
+  background-color: #151c20;
+  cursor: pointer;
+  position: absolute;
+  border-radius: 50%;
+  top:50%;
+  border:none  
+}
+
+.arrow-left{
+  left: 0;
+  transform: translate(-100%,-50%);
+}
+
+.arrow-right{
+  right: 0;
+  transform: translate(100%,-50%);
+  /* transform: translateY(-50%); */
 }
 
 .forecast {
@@ -239,10 +285,13 @@ main {
   flex-direction: column;
   gap: 0.4rem;
 
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 0.5rem;
   border-radius: 9px;
-  background-color: #263239;
-  color: #eaebec;
+  background-color: #d0e6f0;
+  color: #263239;
+
+  /* background-color: #263239; */
+  /* color: #eaebec; */
 }
 
 .forecast_hour-active {

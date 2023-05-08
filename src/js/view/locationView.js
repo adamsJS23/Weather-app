@@ -1,19 +1,23 @@
 class LocationView {
   _ParentContainer = document.querySelector(".result_container");
+  _iptAdd = document.querySelector(".ipt-add");
   _data;
+  _btnApp = document.querySelector(".btn-app");
   render(data) {
     this._data = data;
-    console.log("data would rendered in a minute");
     this._ParentContainer.innerHTML = "";
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
       this._generateMarkup(this._data)
     );
+
+    this._toggleIcon();
+    this._diseableInput();
   }
   _generateMarkup(data) {
     console.log(data);
     return `<div class="section section-1">
-    <div class="location">
+    <div class="location_complete_info">
       <div class="location_header">
         <p class="location_name">
           <ion-icon
@@ -31,7 +35,7 @@ class LocationView {
       </p>
       <img
         class="weather_img"
-        src="https://openweathermap.org/img/wn/${data.icon}.png"
+        src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
         alt="Current weather icon"
       />
       <div class="location_more_info">
@@ -131,8 +135,12 @@ class LocationView {
         <div class="dot dot-3"></div>
       </li>
     </ul>
-    <div class="hourly_forecast">${this._generateHourlyForecastMarkup(data)}
-      
+    <div class="hourly_forecast_box">
+      <div class="hourly_forecast"><button class="arrow arrow-left"><ion-icon  class="icon icon-left" name="chevron-back-outline"></ion-icon></button>${this._generateHourlyForecastMarkup(
+        data
+      )}<button class="arrow arrow-right"><ion-icon class="icon icon-left" name="chevron-forward-outline"></ion-icon></button>
+        
+      </div>
     </div>
     <div class="location_weather_map"></div>
     <div class="next_7_days">
@@ -145,17 +153,21 @@ class LocationView {
 
   _generateHourlyForecastMarkup(data) {
     const { hourly } = data;
-    return hourly.map(
-      (hourForecast) => `<div class="forecast">
-              <span>${hourForecast.hour}</span>
-              <img
-                class="weather_img_tiny"
-                src="https://openweathermap.org/img/wn/${hourForecast.icon}.png"
-                alt="weather icon"
-              />
-              <span>${hourForecast.temp}°</span>
-            </div>`
-    ).join('');
+    return hourly.slice(12,18)
+      .map(
+        (hourForecast) => `
+                <div class="forecast">
+                  <span>${hourForecast.hour}</span>
+                  <img
+                    class="weather_img_tiny"
+                    src="https://openweathermap.org/img/wn/${hourForecast.icon}.png"
+                    alt="weather icon"
+                  />
+                  <span>${hourForecast.temp}°</span>
+                </div>
+            `
+      )
+      .join("");
   }
 
   _generateDailyForecastMarkuk(data) {
@@ -178,6 +190,21 @@ class LocationView {
       .join("");
   }
 
+  _toggleIcon() {
+    // console.log(document.querySelectorAll('.icon_add_home').formArray())
+    Array.from(document.querySelectorAll(".icon-app")).forEach((icon) =>
+      icon.classList.toggle("hidden")
+    );
+  }
+
+  _diseableInput() {
+    this._iptAdd.disabled = true;
+  }
+
+  _enableInput() {
+    this._iptAdd.disabled = false;
+  }
+
   addHandlerClick(handler) {
     this._ParentContainer.addEventListener("click", function (e) {
       e.preventDefault();
@@ -186,9 +213,21 @@ class LocationView {
       const { lat, lon, locationName, countryName } =
         e.target.closest(".location").dataset;
 
-      console.log(lat, lon, locationName, countryName);
       handler({ lat, lon, locationName, countryName });
+      console.log(locationName);
     });
+  }
+
+  addHandlerHome(handler) {
+    this._btnApp.addEventListener(
+      "click",
+      function (e) {
+        if (!e.target.classList.contains("icon-home")) return;
+        this._toggleIcon();
+        this._enableInput();
+        handler();
+      }.bind(this)
+    );
   }
 }
 
