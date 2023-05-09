@@ -136,58 +136,14 @@ class LocationView {
       </li>
     </ul>
     <div class="hourly_forecast_box">
-      <div class="hourly_forecast"><button class="arrow arrow-left"><ion-icon  class="icon icon-left" name="chevron-back-outline"></ion-icon></button>${this._generateHourlyForecastMarkup(
-        data
-      )}<button class="arrow arrow-right"><ion-icon class="icon icon-left" name="chevron-forward-outline"></ion-icon></button>
-        
-      </div>
+      
     </div>
+    <div class="tomorrow"></div>
     <div class="location_weather_map"></div>
     <div class="next_7_days">
-      <ul class="list_2">
-        ${this._generateDailyForecastMarkuk(data)}   
-      </ul>
+      
     </div>
   </div>`;
-  }
-
-  _generateHourlyForecastMarkup(data) {
-    const { hourly } = data;
-    return hourly.slice(12,18)
-      .map(
-        (hourForecast) => `
-                <div class="forecast">
-                  <span>${hourForecast.hour}</span>
-                  <img
-                    class="weather_img_tiny"
-                    src="https://openweathermap.org/img/wn/${hourForecast.icon}.png"
-                    alt="weather icon"
-                  />
-                  <span>${hourForecast.temp}°</span>
-                </div>
-            `
-      )
-      .join("");
-  }
-
-  _generateDailyForecastMarkuk(data) {
-    const { daily } = data;
-    return daily
-      .map(
-        (dayForecast) => `<li class="list_2_item">
-    <span>${dayForecast.dayLong}</span>
-    <span class="align_left">${dayForecast.dayNumeric}</span>
-    <span>${dayForecast.min}°</span>
-    <div class="line_2"></div>
-    <span>${dayForecast.max}°</span>
-    <img
-      class="weather_img_tiny"
-      src="https://openweathermap.org/img/wn/${dayForecast.icon}.png"
-      alt="weather icon"
-    />
-  </li>`
-      )
-      .join("");
   }
 
   _toggleIcon() {

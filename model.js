@@ -126,9 +126,11 @@ function storeLocation(locations) {
 
 // Load stored location from the local storage
 function loadStoredLocation() {
-  state.storedLocation = JSON.parse(localStorage.getItem("locations"));
+  const locations = JSON.parse(localStorage.getItem("locations"));
+  state.storedLocation = locations ? locations : [];
+  if (!state.storedLocation) throw new Error("There not favorite location");
 }
-//  Load local storage and store data in the state 
+//  Load local storage and store data in the state
 loadStoredLocation();
 
 export function orderStoredLocations(storedlocation) {
@@ -136,3 +138,12 @@ export function orderStoredLocations(storedlocation) {
   return storedlocation.sort((a, b) => b.time - a.time);
 }
 // console.log(orderStoredLocations(state.storedLocation));
+
+async function getMap() {
+  const map = fetchData(
+    `http://maps.openweathermap.org/maps/2.0/weather/TA2/1/2/2?date=1527811200&opacity=0.9&fill_bound=true&palette=0:FF0000;10:00FF00;20:0000FF&appid=${API_KEY}`
+  );
+
+  console.log(map);
+}
+// getMap();
