@@ -4,10 +4,10 @@ class HourlyForecastView {
 
   render(data) {
     this._data = data;
-    this._ParentContainer.querySelector('.hourly_forecast_box').insertAdjacentHTML(
-      "afterbegin",
-      this._generateMarkup(this._data)
-    );
+    // this._parentContainer.querySelector(".hourly_forecast_box").innerHTML = "";
+    this._ParentContainer
+      .querySelector(".hourly_forecast_box")
+      .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data));
   }
 
   _generateMarkup(data) {

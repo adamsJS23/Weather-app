@@ -85,6 +85,35 @@ export async function displayLocation(obj) {
       return { min, max, dayLong, dayNumeric, icon };
     });
 
+    function tomorrowForecast(tomorrowWeather) {
+      const {
+        clouds,
+        humidity,
+        uvi,
+        wind_speed,
+        feels_like,
+        temp,
+        weather,
+        dt,
+      } = tomorrowWeather;
+      const { day: feelsLike } = feels_like;
+      const { description:weatherDescription, icon } = weather[0];
+      const { day: dayTemp } = temp;
+      return {
+        clouds,
+        humidity,
+        uvi: Math.round(uvi),
+        windSpeed: Math.round(wind_speed),
+        feelsLike: Math.round(feelsLike),
+        date: extractDate(dt),
+        weatherDescription,
+        icon,
+        temp: Math.round(dayTemp),
+      };
+    }
+    console.log(tomorrowForecast(weatherData.daily[1]))
+    // console.log(weatherData.daily[1]);
+
     state.locationCompleteDate = {
       locationName: locationName,
       countryName: countryName,
@@ -101,11 +130,14 @@ export async function displayLocation(obj) {
       icon: weatherData.current.weather[0].icon,
       hourly: forecastHourly,
       daily: forecastDaily,
+      tomorrow:tomorrowForecast(weatherData.daily[1])
     };
   } catch (err) {
     throw err;
   }
 }
+
+console.log(state.locationCompleteDate.daily);
 
 // Extract date from the timestamp
 function extractDate(unixTimestamp) {

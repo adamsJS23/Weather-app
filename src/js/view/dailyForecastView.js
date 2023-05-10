@@ -4,15 +4,16 @@ class DailyForecastView {
 
   render(data) {
     this._data = data;
+    // this._parentContainer.querySelector(".hourly_forecast_box").innerHTML = "";
     this._ParentContainer
-      .querySelector(".next_7_days")
-      .insertAdjacentHTML('afterbegin',this._generateMarkup(this._data));
+      .querySelector(".hourly_forecast_box")
+      .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data));
   }
 
   _generateMarkup(data) {
-    return `<ul class="list_2">
+    return `<div class="next_7_days"><ul class="list_2">
     ${this._generateDailyForecastMarkup(data)}   
-  </ul>`;
+  </ul></div>`;
   }
 
   _generateDailyForecastMarkup(data) {

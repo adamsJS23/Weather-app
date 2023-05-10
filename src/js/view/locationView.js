@@ -122,26 +122,20 @@ class LocationView {
   </div>
   <div class="section section-2">
     <ul class="list_1">
-      <li class="list_1_item list_1_item--active">
+      <li class="list_1_item today list_1_item-active">
         Today
         <div class="dot dot-1 dot-active"></div>
       </li>
-      <li class="list_1_item">
+      <li class="list_1_item tomorrow">
         Tomorrow
         <div class="dot dot-2"></div>
       </li>
-      <li class="list_1_item list_1_item--3">
+      <li class="list_1_item next_7_day list_1_item-3">
         Next 7 days
         <div class="dot dot-3"></div>
       </li>
     </ul>
     <div class="hourly_forecast_box">
-      
-    </div>
-    <div class="tomorrow"></div>
-    <div class="location_weather_map"></div>
-    <div class="next_7_days">
-      
     </div>
   </div>`;
   }
@@ -151,6 +145,14 @@ class LocationView {
     Array.from(document.querySelectorAll(".icon-app")).forEach((icon) =>
       icon.classList.toggle("hidden")
     );
+  }
+
+  _removeActiveLink(){
+    Array.from(document.querySelectorAll('.list_1_item')).forEach(link=>link.classList.remove('list_1_item-active'))
+  }
+
+  _removeActiveDot(){
+    Array.from(document.querySelectorAll('.dot')).forEach(link=>link.classList.remove('dot-active'))
   }
 
   _diseableInput() {
@@ -184,6 +186,29 @@ class LocationView {
         handler();
       }.bind(this)
     );
+  }
+
+  addHandlerMenuClick(handler) {
+    this._ParentContainer
+      .addEventListener("click", function (e) {
+        if (!e.target.classList.contains("list_1_item")) return;
+        const targetMenu=e.target.getAttribute('class').split(' ').at(1);
+        this._removeActiveLink()
+        this._removeActiveDot()
+        if(targetMenu==='today'){
+          document.querySelector('.today').classList.add('list_1_item-active')
+          document.querySelector('.dot-1').classList.add('dot-active')
+        }
+        if(targetMenu==='tomorrow'){
+          document.querySelector('.tomorrow').classList.add('list_1_item-active')
+          document.querySelector('.dot-2').classList.add('dot-active')
+        }
+        if(targetMenu==='next_7_day'){
+          document.querySelector('.next_7_day').classList.add('list_1_item-active')
+          document.querySelector('.dot-3').classList.add('dot-active')
+        }
+        handler(targetMenu);
+      }.bind(this));
   }
 }
 

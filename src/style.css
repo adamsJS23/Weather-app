@@ -153,6 +153,17 @@ main {
   row-gap: 3.2rem;
 }
 
+.tomorrow_more_info {
+  display: flex;
+  padding-top: 2.4rem;
+  justify-items: space-between;
+  align-items: center;
+  /* width: 30rem; */
+  gap: 2rem;
+}
+
+
+
 .more_info_box {
   display: flex;
   flex-direction: column;
@@ -225,7 +236,7 @@ main {
   cursor: pointer;
 }
 
-.list_1_item--active {
+.list_1_item-active {
   color: #eaebec;
 }
 
@@ -233,7 +244,7 @@ main {
   background-color: #eaebec;
 }
 
-.list_1_item--3 {
+.list_1_item-3 {
   margin-left: auto;
 }
 
@@ -269,12 +280,12 @@ main {
 
 .arrow-left{
   left: 0;
-  transform: translate(-100%,-50%);
+  transform: translate(-100%,-578%);
 }
 
 .arrow-right{
   right: 0;
-  transform: translate(100%,-50%);
+  transform: translate(100%,-578%);
   /* transform: translateY(-50%); */
 }
 
