@@ -1,12 +1,12 @@
 class LocationView {
-  _ParentContainer = document.querySelector(".result_container");
+  _parentContainer = document.querySelector(".result_container");
   _iptAdd = document.querySelector(".ipt-add");
   _data;
   _btnApp = document.querySelector(".btn-app");
   render(data) {
     this._data = data;
-    this._ParentContainer.innerHTML = "";
-    this._ParentContainer.insertAdjacentHTML(
+    this._parentContainer.innerHTML = "";
+    this._parentContainer.insertAdjacentHTML(
       "afterbegin",
       this._generateMarkup(this._data)
     );
@@ -14,6 +14,7 @@ class LocationView {
     this._toggleIcon();
     this._diseableInput();
   }
+
   _generateMarkup(data) {
     console.log(data);
     return `<div class="section section-1">
@@ -135,8 +136,8 @@ class LocationView {
         <div class="dot dot-3"></div>
       </li>
     </ul>
-    <div class="hourly_forecast_box">
-    </div>
+  </div>
+  <div class=" section section-3">
   </div>`;
   }
 
@@ -147,12 +148,16 @@ class LocationView {
     );
   }
 
-  _removeActiveLink(){
-    Array.from(document.querySelectorAll('.list_1_item')).forEach(link=>link.classList.remove('list_1_item-active'))
+  _removeActiveLink() {
+    Array.from(document.querySelectorAll(".list_1_item")).forEach((link) =>
+      link.classList.remove("list_1_item-active")
+    );
   }
 
-  _removeActiveDot(){
-    Array.from(document.querySelectorAll('.dot')).forEach(link=>link.classList.remove('dot-active'))
+  _removeActiveDot() {
+    Array.from(document.querySelectorAll(".dot")).forEach((link) =>
+      link.classList.remove("dot-active")
+    );
   }
 
   _diseableInput() {
@@ -163,8 +168,12 @@ class LocationView {
     this._iptAdd.disabled = false;
   }
 
+  clear() {
+    this._parentContainer.querySelector(".section-3").innerHTML = "";
+  }
+
   addHandlerClick(handler) {
-    this._ParentContainer.addEventListener("click", function (e) {
+    this._parentContainer.addEventListener("click", function (e) {
       e.preventDefault();
       const location = e.target.closest(".location");
       if (!location) return;
@@ -189,26 +198,32 @@ class LocationView {
   }
 
   addHandlerMenuClick(handler) {
-    this._ParentContainer
-      .addEventListener("click", function (e) {
+    this._parentContainer.addEventListener(
+      "click",
+      function (e) {
         if (!e.target.classList.contains("list_1_item")) return;
-        const targetMenu=e.target.getAttribute('class').split(' ').at(1);
-        this._removeActiveLink()
-        this._removeActiveDot()
-        if(targetMenu==='today'){
-          document.querySelector('.today').classList.add('list_1_item-active')
-          document.querySelector('.dot-1').classList.add('dot-active')
+        const targetMenu = e.target.getAttribute("class").split(" ").at(1);
+        this._removeActiveLink();
+        this._removeActiveDot();
+        if (targetMenu === "today") {
+          document.querySelector(".today").classList.add("list_1_item-active");
+          document.querySelector(".dot-1").classList.add("dot-active");
         }
-        if(targetMenu==='tomorrow'){
-          document.querySelector('.tomorrow').classList.add('list_1_item-active')
-          document.querySelector('.dot-2').classList.add('dot-active')
+        if (targetMenu === "tomorrow") {
+          document
+            .querySelector(".tomorrow")
+            .classList.add("list_1_item-active");
+          document.querySelector(".dot-2").classList.add("dot-active");
         }
-        if(targetMenu==='next_7_day'){
-          document.querySelector('.next_7_day').classList.add('list_1_item-active')
-          document.querySelector('.dot-3').classList.add('dot-active')
+        if (targetMenu === "next_7_day") {
+          document
+            .querySelector(".next_7_day")
+            .classList.add("list_1_item-active");
+          document.querySelector(".dot-3").classList.add("dot-active");
         }
         handler(targetMenu);
-      }.bind(this));
+      }.bind(this)
+    );
   }
 }
 

@@ -4,9 +4,9 @@ class HourlyForecastView {
 
   render(data) {
     this._data = data;
-    // this._parentContainer.querySelector(".hourly_forecast_box").innerHTML = "";
+    // this._parentContainer.querySelector(".section-3").innerHTML = "";
     this._ParentContainer
-      .querySelector(".hourly_forecast_box")
+      .querySelector(".section-3")
       .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data));
   }
 

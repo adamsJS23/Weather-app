@@ -4,7 +4,7 @@ class MapView {
 
   render(data) {
     this._data = data;
-    this._parentContainer.querySelector('.hourly_forecast_box').insertAdjacentHTML(
+    this._parentContainer.querySelector('.section-3').insertAdjacentHTML(
       "beforeend",
       this._generateMarkup(this._data)
     );

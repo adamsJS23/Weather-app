@@ -3,7 +3,7 @@ import { fetchData } from "./helper.js";
 import { URL_GEOCODE } from "./config.js";
 
 export const state = {
-  currentLocation: {},
+  searchedLocation: {},
   storedLocation: [],
   locationCompleteDate: {},
 };
@@ -34,19 +34,9 @@ export async function findLocation(query) {
     );
 
     // formatting data different api request
+    formatSearchedLocation(weatherData, countryData, geocodeData);
 
-    state.currentLocation = {
-      locationName: geocodeData[0].name,
-      countryName: countryData[0].name.common,
-      locationLat: geocodeData[0].lat,
-      locationLon: geocodeData[0].lon,
-      temp: Math.round(weatherData.current.temp),
-      date: extractDate(weatherData.current.dt),
-      weatherDescription: weatherData.current.weather[0].description,
-      icon: weatherData.current.weather[0].icon,
-      time: Date.now(),
-    };
-    state.storedLocation.push(state.currentLocation);
+    state.storedLocation.push(state.searchedLocation);
     // Store the locations to the local storage
     storeLocation(state.storedLocation);
     // Update the location local storage
@@ -54,6 +44,20 @@ export async function findLocation(query) {
   } catch (err) {
     throw err;
   }
+}
+
+function formatSearchedLocation(weatherData, countryData, geocodeData) {
+  state.searchedLocation = {
+    locationName: geocodeData[0].name,
+    countryName: countryData[0].name.common,
+    locationLat: geocodeData[0].lat,
+    locationLon: geocodeData[0].lon,
+    temp: Math.round(weatherData.current.temp),
+    date: extractDate(weatherData.current.dt),
+    weatherDescription: weatherData.current.weather[0].description,
+    icon: weatherData.current.weather[0].icon,
+    time: Date.now(),
+  };
 }
 
 export async function displayLocation(obj) {
@@ -97,7 +101,7 @@ export async function displayLocation(obj) {
         dt,
       } = tomorrowWeather;
       const { day: feelsLike } = feels_like;
-      const { description:weatherDescription, icon } = weather[0];
+      const { description: weatherDescription, icon } = weather[0];
       const { day: dayTemp } = temp;
       return {
         clouds,
@@ -111,8 +115,6 @@ export async function displayLocation(obj) {
         temp: Math.round(dayTemp),
       };
     }
-    console.log(tomorrowForecast(weatherData.daily[1]))
-    // console.log(weatherData.daily[1]);
 
     state.locationCompleteDate = {
       locationName: locationName,
@@ -130,14 +132,12 @@ export async function displayLocation(obj) {
       icon: weatherData.current.weather[0].icon,
       hourly: forecastHourly,
       daily: forecastDaily,
-      tomorrow:tomorrowForecast(weatherData.daily[1])
+      tomorrow: tomorrowForecast(weatherData.daily[1]),
     };
   } catch (err) {
     throw err;
   }
 }
-
-console.log(state.locationCompleteDate.daily);
 
 // Extract date from the timestamp
 function extractDate(unixTimestamp) {
@@ -161,6 +161,7 @@ function loadStoredLocation() {
   const locations = JSON.parse(localStorage.getItem("locations"));
   state.storedLocation = locations ? locations : [];
   if (!state.storedLocation) throw new Error("There not favorite location");
+  console.log(state.storedLocation);
 }
 //  Load local storage and store data in the state
 loadStoredLocation();

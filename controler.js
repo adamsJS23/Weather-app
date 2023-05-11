@@ -18,7 +18,7 @@ async function controlLocation() {
     const query = LocationListView.getQuery();
     await model.findLocation(query, false);
     // Render Location information
-    LocationListView.render(model.state.currentLocation);
+    LocationListView.render(model.state.searchedLocation);
   } catch (err) {
     console.error(err);
   }
@@ -31,7 +31,6 @@ async function controlDisplayLocation(data) {
     HourlyForecastView.render(model.state.locationCompleteDate);
     // LocationMapView.render feature
     MapView.render();
-    
   } catch (err) {
     console.error(err);
   }
@@ -39,15 +38,20 @@ async function controlDisplayLocation(data) {
 
 function controlMenu(targetMenu) {
   console.log(targetMenu);
-  if(targetMenu === "today") {
+  if (targetMenu === "today") {
+    LocationView.clear();
     HourlyForecastView.render(model.state.locationCompleteDate);
     MapView.render();
   }
-  targetMenu === "tomorrow" &&
+  if (targetMenu === "tomorrow") {
+    locationView.clear();
     TomorrowView.render(model.state.locationCompleteDate.tomorrow);
+  }
 
-  targetMenu === "next_7_day" &&
+  if (targetMenu === "next_7_day") {
+    locationView.clear();
     DailyForescastView.render(model.state.locationCompleteDate);
+  }
 }
 
 function controlHome() {
