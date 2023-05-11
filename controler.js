@@ -9,7 +9,15 @@ import * as model from "./model.js"; // Import every thing from the model
 import locationView from "./src/js/view/locationView.js";
 
 function controlStoredLocation() {
-  HomeView.render(model.state.storedLocation);
+  HomeView.clear();
+  model.state.storedLocation.forEach(async function (location) {
+    console.log(location);
+    const { locationLat: lat, locationLon: lon } = location;
+    await model.displayLocation(location);
+    HomeView.render(model.state.locationCompleteDate, lat, lon);
+    console.log(model.state.locationCompleteDate.hourly);
+    console.log(model.partialHourlyForecast(8));
+  });
 }
 
 async function controlLocation() {
@@ -28,7 +36,7 @@ async function controlDisplayLocation(data) {
   try {
     await model.displayLocation(data);
     LocationView.render(model.state.locationCompleteDate);
-    HourlyForecastView.render(model.state.locationCompleteDate);
+    HourlyForecastView.render(model.state.locationCompleteDate.hourly);
     // LocationMapView.render feature
     MapView.render();
   } catch (err) {
@@ -39,8 +47,9 @@ async function controlDisplayLocation(data) {
 function controlMenu(targetMenu) {
   console.log(targetMenu);
   if (targetMenu === "today") {
+    // Same code
     LocationView.clear();
-    HourlyForecastView.render(model.state.locationCompleteDate);
+    HourlyForecastView.render(model.state.locationCompleteDate.hourly);
     MapView.render();
   }
   if (targetMenu === "tomorrow") {
@@ -54,8 +63,13 @@ function controlMenu(targetMenu) {
   }
 }
 
-function controlHome() {
-  HomeView.render(model.state.storedLocation);
+function controlPartialHourlyForecast(scrollTo) {
+
+  // Same code 
+  LocationView.clear();
+  debugger
+  HourlyForecastView.render(model.partialHourlyForecast(scrollTo),scrollTo);
+  MapView.render();
 }
 
 init();
@@ -64,6 +78,7 @@ function init() {
   LocationListView.addHandlerEnter(controlLocation);
   LocationView.addHandlerClick(controlDisplayLocation);
   locationView.addHandlerMenuClick(controlMenu);
-  LocationView.addHandlerHome(controlHome);
+  LocationView.addHandlerHome(controlStoredLocation);
+  HourlyForecastView.addHandlerArrowClicked(controlPartialHourlyForecast);
   controlStoredLocation();
 }

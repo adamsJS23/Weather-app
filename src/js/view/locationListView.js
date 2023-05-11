@@ -19,9 +19,9 @@ class LocationListView {
     );
   }
 
-  _generateMarkup(data) {
+  _generateMarkup(data, lat, lon) {
     console.log(data);
-    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-lat="${data.locationLat}" data-lon="${data.locationLon}" >
+    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${lat}" data-location-lon="${lon}" >
                 <div class="location_detail">
                   <p class="location_name">
                     <ion-icon

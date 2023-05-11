@@ -2,45 +2,40 @@ class HomeView {
   _ParentContainer = document.querySelector(".result_container");
   _data;
 
-  render(data) {
+  render(data, lat, lon) {
     this._data = data;
-    this._clear();
+    // this.clear();
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
-      this._generateMarkup(this._data)
+      this._generateMarkup(this._data, lat, lon)
     );
   }
 
-  _generateMarkup(data) {
-    return data
-      .map(
-        (
-          location
-        ) => `<div class="location" data-country-name="${location.countryName}" data-location-name="${location.locationName}"  data-lat="${location.locationLat}" data-lon="${location.locationLon}" >
+  _generateMarkup(data, lat, lon) {
+    console.log(data);
+    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${lat}" data-location-lon="${lon}" >
                         <div class="location_detail">
                           <p class="location_name">
                             <ion-icon
                               class="icon icon-location"
                               name="location-outline"
                             ></ion-icon
-                            >${location.locationName},<br />${location.countryName}
+                            >${data.locationName},<br />${data.countryName}
                           </p>
-                          <p class="forecast_date">${location.date}</p>
+                          <p class="forecast_date">${data.date}</p>
                         </div>
                         <p class="weather_description">
-                          <span class="weather_temp">${location.temp}°</span>${location.weatherDescription}
+                          <span class="weather_temp">${data.temp}°</span>${data.weatherDescription}
                         </p>
                         <img
                           class="weather_img"
-                          src="https://openweathermap.org/img/wn/${location.icon}@2x.png"
+                          src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
                           alt="Current weather icon"
                 /></div
- >`
-      )
-      .join("");
+ >`;
   }
 
-  _clear() {
+  clear() {
     this._ParentContainer.innerHTML = "";
   }
 }

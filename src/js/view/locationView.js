@@ -177,10 +177,10 @@ class LocationView {
       e.preventDefault();
       const location = e.target.closest(".location");
       if (!location) return;
-      const { lat, lon, locationName, countryName } =
+      const { locationLat, locationLon, locationName, countryName } =
         e.target.closest(".location").dataset;
 
-      handler({ lat, lon, locationName, countryName });
+      handler({ locationLat, locationLon, locationName, countryName });
       console.log(locationName);
     });
   }

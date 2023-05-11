@@ -6,6 +6,7 @@ export const state = {
   searchedLocation: {},
   storedLocation: [],
   locationCompleteDate: {},
+  forecastOnScroll: 6,
 };
 
 export async function findLocation(query) {
@@ -36,7 +37,14 @@ export async function findLocation(query) {
     // formatting data different api request
     formatSearchedLocation(weatherData, countryData, geocodeData);
 
-    state.storedLocation.push(state.searchedLocation);
+    const { countryName, locationName, locationLat, locationLon } =
+      state.searchedLocation;
+    state.storedLocation.push({
+      countryName,
+      locationName,
+      locationLat,
+      locationLon,
+    });
     // Store the locations to the local storage
     storeLocation(state.storedLocation);
     // Update the location local storage
@@ -50,8 +58,8 @@ function formatSearchedLocation(weatherData, countryData, geocodeData) {
   state.searchedLocation = {
     locationName: geocodeData[0].name,
     countryName: countryData[0].name.common,
-    locationLat: geocodeData[0].lat,
-    locationLon: geocodeData[0].lon,
+    lat: geocodeData[0].lat,
+    lon: geocodeData[0].lon,
     temp: Math.round(weatherData.current.temp),
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
@@ -62,7 +70,12 @@ function formatSearchedLocation(weatherData, countryData, geocodeData) {
 
 export async function displayLocation(obj) {
   try {
-    const { lat, lon, locationName, countryName } = obj;
+    const {
+      locationLat: lat,
+      locationLon: lon,
+      locationName,
+      countryName,
+    } = obj;
     const weatherData = await fetchData(
       `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
         .toString()
@@ -134,6 +147,7 @@ export async function displayLocation(obj) {
       daily: forecastDaily,
       tomorrow: tomorrowForecast(weatherData.daily[1]),
     };
+    return state.locationCompleteDate;
   } catch (err) {
     throw err;
   }
@@ -166,6 +180,17 @@ function loadStoredLocation() {
 //  Load local storage and store data in the state
 loadStoredLocation();
 
+// Implement Hourly forcast scrolling
+const numberPage = 6;
+export function partialHourlyForecast(scrollTo) {
+  if (scrollTo > 7) scrollTo = 0;
+  if (scrollTo < 0) scrollTo = 7;
+  const start = scrollTo * numberPage;
+  const end = scrollTo * numberPage + numberPage;
+  return state.locationCompleteDate.hourly.slice(start, end);
+}
+// End hourly forcecast scroll
+
 export function orderStoredLocations(storedlocation) {
   if (!storedlocation.length) return [];
   return storedlocation.sort((a, b) => b.time - a.time);
@@ -180,3 +205,5 @@ async function getMap() {
   console.log(map);
 }
 // getMap();
+
+// localStorage.removeItem('locations');
