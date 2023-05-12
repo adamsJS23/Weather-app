@@ -7,10 +7,11 @@ class HourlyForecastView {
     // this._parentContainer.querySelector(".hourly_forecast").innerHTML = "";
     this._ParentContainer
       .querySelector(".section-3")
-      .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data));
+      .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data,scrollTo));
   }
 
   _generateMarkup(data,scrollTo) {
+  
     return `<div class="hourly_forecast"><button class="arrow arrow-left" data-scroll-to="${scrollTo?scrollTo:0}"><ion-icon  class="icon icon-left" name="chevron-back-outline"></ion-icon></button>${this._generateHourlyForecastMarkup(
       data
     )}<button class="arrow arrow-right" data-scroll-to="${scrollTo?scrollTo:0}"><ion-icon class="icon icon-left" name="chevron-forward-outline"></ion-icon></button>
@@ -42,6 +43,7 @@ class HourlyForecastView {
       if (!btn) return;
       let { scrollTo } = btn.dataset;
       btn.classList.contains("arrow-left") ? scrollTo-- : scrollTo++;
+      console.log(scrollTo)
       handler(scrollTo);
     });
   }

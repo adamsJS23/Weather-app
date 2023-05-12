@@ -16,8 +16,8 @@ class LocationView {
   }
 
   _generateMarkup(data) {
-    console.log(data);
-    return `<div class="section section-1">
+    return `
+    <div class="section section-1">
     <div class="location_complete_info">
       <div class="location_header">
         <p class="location_name">
@@ -142,7 +142,6 @@ class LocationView {
   }
 
   _toggleIcon() {
-    // console.log(document.querySelectorAll('.icon_add_home').formArray())
     Array.from(document.querySelectorAll(".icon-app")).forEach((icon) =>
       icon.classList.toggle("hidden")
     );
@@ -181,7 +180,6 @@ class LocationView {
         e.target.closest(".location").dataset;
 
       handler({ locationLat, locationLon, locationName, countryName });
-      console.log(locationName);
     });
   }
 

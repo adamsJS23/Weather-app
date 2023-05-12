@@ -20,7 +20,6 @@ class LocationListView {
   }
 
   _generateMarkup(data, lat, lon) {
-    console.log(data);
     return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${lat}" data-location-lon="${lon}" >
                 <div class="location_detail">
                   <p class="location_name">

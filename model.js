@@ -39,11 +39,12 @@ export async function findLocation(query) {
 
     const { countryName, locationName, locationLat, locationLon } =
       state.searchedLocation;
+    // debugger;
     state.storedLocation.push({
       countryName,
       locationName,
-      locationLat,
-      locationLon,
+      locationLat: lat,
+      locationLon: lon,
     });
     // Store the locations to the local storage
     storeLocation(state.storedLocation);
@@ -70,19 +71,20 @@ function formatSearchedLocation(weatherData, countryData, geocodeData) {
 
 export async function displayLocation(obj) {
   try {
+  
     const {
       locationLat: lat,
       locationLon: lon,
       locationName,
       countryName,
     } = obj;
+
     const weatherData = await fetchData(
       `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
         .toString()
         .slice(-2)
         .toLowerCase()}&units=metric&appid=${API_KEY}`
     );
-    // console.log(weatherData);
     const forecastHourly = weatherData.hourly.map((hourForecast) => {
       const hour = `${new Date(hourForecast.dt * 1000).getHours()}:00`;
       const temp = Math.round(hourForecast.temp);
@@ -175,14 +177,14 @@ function loadStoredLocation() {
   const locations = JSON.parse(localStorage.getItem("locations"));
   state.storedLocation = locations ? locations : [];
   if (!state.storedLocation) throw new Error("There not favorite location");
-  console.log(state.storedLocation);
 }
 //  Load local storage and store data in the state
 loadStoredLocation();
 
 // Implement Hourly forcast scrolling
 const numberPage = 6;
-export function partialHourlyForecast(scrollTo) {
+export function partialHourlyForecast(scrollTo = 0) {
+  debugger
   if (scrollTo > 7) scrollTo = 0;
   if (scrollTo < 0) scrollTo = 7;
   const start = scrollTo * numberPage;
@@ -195,13 +197,20 @@ export function orderStoredLocations(storedlocation) {
   if (!storedlocation.length) return [];
   return storedlocation.sort((a, b) => b.time - a.time);
 }
-// console.log(orderStoredLocations(state.storedLocation));
 
 async function getMap() {
-  const map = fetchData(
-    `http://maps.openweathermap.org/maps/2.0/weather/TA2/1/2/2?date=1527811200&opacity=0.9&fill_bound=true&palette=0:FF0000;10:00FF00;20:0000FF&appid=${API_KEY}`
+  const map = await fetch(
+    `https://tile.openweathermap.org/map/temp_new/0/1/1.png?appid=${API_KEY}`
   );
-
+  // const map = fetchData(
+  //   `http://maps.openweathermap.org/maps/2.0/weather/TA2/1/2/2?date=1527811200&opacity=0.9&fill_bound=true&palette=0:FF0000;10:00FF00;20:0000FF&appid=${API_KEY}`
+  // );
+  // const response = await fetch(url);
+  // if (!response.ok) {
+  //   throw new Error(`Something went wrong ${response.status} ${response.statusText}`);
+  // }
+  // const data = await response.json();
+  // return data;
   console.log(map);
 }
 // getMap();
