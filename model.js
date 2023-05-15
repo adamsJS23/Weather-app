@@ -71,7 +71,6 @@ function formatSearchedLocation(weatherData, countryData, geocodeData) {
 
 export async function displayLocation(obj) {
   try {
-  
     const {
       locationLat: lat,
       locationLon: lon,
@@ -98,7 +97,10 @@ export async function displayLocation(obj) {
       const dayLong = new Intl.DateTimeFormat(navigator.language, {
         weekday: "long",
       }).format(unixTimestamp);
-      const min = Math.round(dayForecast.temp.min);
+      const min = new Intl.NumberFormat(navigator.language, {
+        style: "unit",
+        unit: "celsius",
+      }).format(dayForecast.temp.min);
       const max = Math.round(dayForecast.temp.max);
       const icon = dayForecast.weather[0].icon;
       return { min, max, dayLong, dayNumeric, icon };
@@ -123,11 +125,11 @@ export async function displayLocation(obj) {
         humidity,
         uvi: Math.round(uvi),
         windSpeed: Math.round(wind_speed),
-        feelsLike: Math.round(feelsLike),
+        feelsLike: formatTempertaure(Math.round(feelsLike)),
         date: extractDate(dt),
         weatherDescription,
         icon,
-        temp: Math.round(dayTemp),
+        temp: formatTempertaure(Math.round(dayTemp)),
       };
     }
 
@@ -135,13 +137,16 @@ export async function displayLocation(obj) {
       locationName: locationName,
       countryName: countryName,
       temp: Math.round(weatherData.current.temp),
-      visibility: weatherData.current.visibility,
+      visibility: formatKmperHour(weatherData.current.visibility),
       uvi: Math.round(weatherData.current.uvi),
-      humidity: weatherData.current.humidity,
+      humidity: formatPercentage(weatherData.current.humidity),
       feelsLike: Math.round(weatherData.current.feels_like),
-      pressure: Number.parseInt(weatherData.current.pressure),
-      windSpeed: Math.round(weatherData.current.wind_speed),
-      clouds: weatherData.current.clouds,
+      pressure: Math.round(weatherData.current.pressure / 100),
+      windSpeed: formatKmperHour(
+        Math.round(weatherData.current.wind_speed),
+        true
+      ),
+      clouds: formatPercentage(weatherData.current.clouds),
       date: extractDate(weatherData.current.dt),
       weatherDescription: weatherData.current.weather[0].description,
       icon: weatherData.current.weather[0].icon,
@@ -149,10 +154,33 @@ export async function displayLocation(obj) {
       daily: forecastDaily,
       tomorrow: tomorrowForecast(weatherData.daily[1]),
     };
+    console.log(state.locationCompleteDate.pressure);
     return state.locationCompleteDate;
   } catch (err) {
     throw err;
   }
+}
+
+function formatPercentage(value) {
+  return new Intl.NumberFormat(navigator.language, {
+    style: "unit",
+    unit: "percent",
+  }).format(value);
+}
+function formatTempertaure(value) {
+  return new Intl.NumberFormat(navigator.language, {
+    style: "unit",
+    unit: "celsius",
+  }).format(value);
+}
+
+function formatKmperHour(value, okFormat = false) {
+  return new Intl.NumberFormat(navigator.language, {
+    style: "unit",
+    unit: "kilometer-per-hour",
+    unitDisplay: "short",
+    roundingMode: "floor",
+  }).format(okFormat ? value : value / 1000);
 }
 
 // Extract date from the timestamp
@@ -184,7 +212,7 @@ loadStoredLocation();
 // Implement Hourly forcast scrolling
 const numberPage = 6;
 export function partialHourlyForecast(scrollTo = 0) {
-  debugger
+  // debugger
   if (scrollTo > 7) scrollTo = 0;
   if (scrollTo < 0) scrollTo = 7;
   const start = scrollTo * numberPage;
@@ -200,19 +228,12 @@ export function orderStoredLocations(storedlocation) {
 
 async function getMap() {
   const map = await fetch(
-    `https://tile.openweathermap.org/map/temp_new/0/1/1.png?appid=${API_KEY}`
+    `http://api.openweathermap.org/data/2.5/air_pollution?lat=31.2322758&lon=121.4692071&appid=${API_KEY}`
   );
-  // const map = fetchData(
-  //   `http://maps.openweathermap.org/maps/2.0/weather/TA2/1/2/2?date=1527811200&opacity=0.9&fill_bound=true&palette=0:FF0000;10:00FF00;20:0000FF&appid=${API_KEY}`
-  // );
-  // const response = await fetch(url);
-  // if (!response.ok) {
-  //   throw new Error(`Something went wrong ${response.status} ${response.statusText}`);
-  // }
-  // const data = await response.json();
-  // return data;
-  console.log(map);
+
+  const data = await map.json();
+  console.log(data);
 }
-// getMap();
+getMap();
 
 // localStorage.removeItem('locations');

@@ -62,7 +62,7 @@ class LocationView {
             name="umbrella-outline"
           ></ion-icon>
           <span class="more_info_value"
-            >${data.clouds}<span class="more_info_unit">%</span></span
+            >${data.clouds}</span
           >
           <span>rainfall</span>
         </div>
@@ -72,7 +72,7 @@ class LocationView {
             name="water-outline"
           ></ion-icon>
           <span class="more_info_value"
-            >${data.humidity}<span class="more_info_unit">%</span></span
+            >${data.humidity}</span
           >
           <span>humidity</span>
         </div>
@@ -82,7 +82,7 @@ class LocationView {
             name="golf-outline"
           ></ion-icon>
           <span class="more_info_value"
-            >${data.windSpeed}<span class="more_info_unit">Km/h</span></span
+            >${data.windSpeed}</span
           >
           <span>wind</span>
         </div>
@@ -91,7 +91,7 @@ class LocationView {
             class="icon icon-more_info"
             name="invert-mode-outline"
           ></ion-icon>
-          <span class="more_info_value">${data.pressure / 100}</span>
+          <span class="more_info_value">${data.pressure}</span>
           <span>pressure</span>
         </div>
         <div class="more_info_box">
@@ -101,8 +101,8 @@ class LocationView {
           ></ion-icon>
           <span class="more_info_value"
             >${
-              data.visibility / 1000
-            }<span class="more_info_unit">Km</span></span
+              data.visibility
+            }</span
           >
           <span>visibilty</span>
         </div>
