@@ -108,7 +108,7 @@ main {
 
 .location_name {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   gap: 0.8rem;
   font-size: 1.6rem;
   line-height: 1.8rem;
@@ -117,22 +117,25 @@ main {
 .location_detail,
 .location_header {
   display: flex;
-  gap: 1.6rem;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.location_header{
 }
 
 .forecast_date {
-  align-self: flex-end;
-  margin-left: auto;
+  font-size: 1.2rem;
 }
 
 .weather_description {
+  margin-top: 1.6rem;
   font-size: 1.6rem;
-  text-align: right;
 }
 
 .weather_temp {
-  font-size: 2.4rem;
-  margin-right: 2.4rem;
+  font-size: 3.2rem;
+  margin-right: 1.6rem;
 }
 
 .weather_img {
@@ -141,7 +144,7 @@ main {
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(50%, -28%);
+  transform: translate(-25%, -5%);
 }
 
 .location_more_info {
@@ -305,6 +308,10 @@ main {
   /* color: #eaebec; */
 }
 
+.hourly_forcast_hour{
+  padding: 0 0.5rem;
+}
+
 .forecast_hour-active {
   border: 1px solid #bab2a7;
   border-radius: 9px;
@@ -340,6 +347,10 @@ main {
   align-items: center;
   justify-items: center;
   color: #263239;
+}
+
+.list_2_item span:first-child{
+  justify-self: flex-start;
 }
 
 .line_2 {

@@ -14,7 +14,6 @@ export async function findLocation(query) {
     if (!query) {
       throw new Error('"Invalid location"');
     }
-    // debugger
     const geocodeData = await fetchData(
       `${URL_GEOCODE}direct?q=${query}&appid=${API_KEY}`
     );
@@ -39,7 +38,6 @@ export async function findLocation(query) {
 
     const { countryName, locationName, locationLat, locationLon } =
       state.searchedLocation;
-    // debugger;
     state.storedLocation.push({
       countryName,
       locationName,
@@ -61,6 +59,7 @@ function formatSearchedLocation(weatherData, countryData, geocodeData) {
     countryName: countryData[0].name.common,
     lat: geocodeData[0].lat,
     lon: geocodeData[0].lon,
+
     temp: Math.round(weatherData.current.temp),
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
@@ -78,29 +77,50 @@ export async function displayLocation(obj) {
       countryName,
     } = obj;
 
+    // const weatherData = await fetchData(
+    //   `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=de&units=metric&appid=${API_KEY}`
+    // );
     const weatherData = await fetchData(
       `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
         .toString()
         .slice(-2)
         .toLowerCase()}&units=metric&appid=${API_KEY}`
     );
+
+    const aqiData = await fetchData(
+      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+    );
+    const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
+    const aqiObject = getAirQaulityIndex(aqi);
+
     const forecastHourly = weatherData.hourly.map((hourForecast) => {
-      const hour = `${new Date(hourForecast.dt * 1000).getHours()}:00`;
+      // const hour = `${new Date(hourForecast.dt * 1000).getHours()}:00`;
+      const hour = new Intl.DateTimeFormat("en-GB", { hour: "2-digit" }).format(
+        hourForecast.dt * 1000
+      );
       const temp = Math.round(hourForecast.temp);
       const { icon } = hourForecast.weather[0];
       return { hour, temp, icon };
     });
 
-    const forecastDaily = weatherData.daily.map((dayForecast) => {
+    const forecastDaily = weatherData.daily.map((dayForecast, i) => {
+      let dayLong;
       const unixTimestamp = dayForecast.dt * 1000;
-      const dayNumeric = new Date(unixTimestamp).getDate();
-      const dayLong = new Intl.DateTimeFormat(navigator.language, {
-        weekday: "long",
+      // const dayNumeric = new Date(unixTimestamp).getDate();
+      const dayNumeric = new Intl.DateTimeFormat(navigator.language, {
+        day: "2-digit",
       }).format(unixTimestamp);
-      const min = new Intl.NumberFormat(navigator.language, {
-        style: "unit",
-        unit: "celsius",
-      }).format(dayForecast.temp.min);
+      if (i === 0 || i === 1) {
+        dayLong = new Intl.RelativeTimeFormat(navigator.language, {
+          numeric: "auto",
+        }).format(i, "day");
+      } else {
+        dayLong = new Intl.DateTimeFormat(navigator.language, {
+          weekday: "long",
+        }).format(unixTimestamp);
+      }
+
+      const min = Math.round(dayForecast.temp.min);
       const max = Math.round(dayForecast.temp.max);
       const icon = dayForecast.weather[0].icon;
       return { min, max, dayLong, dayNumeric, icon };
@@ -125,11 +145,11 @@ export async function displayLocation(obj) {
         humidity,
         uvi: Math.round(uvi),
         windSpeed: Math.round(wind_speed),
-        feelsLike: formatTempertaure(Math.round(feelsLike)),
+        feelsLike: Math.round(feelsLike),
         date: extractDate(dt),
         weatherDescription,
         icon,
-        temp: formatTempertaure(Math.round(dayTemp)),
+        temp: Math.round(dayTemp),
       };
     }
 
@@ -153,8 +173,9 @@ export async function displayLocation(obj) {
       hourly: forecastHourly,
       daily: forecastDaily,
       tomorrow: tomorrowForecast(weatherData.daily[1]),
+      aqi: aqiObject.value,
     };
-    console.log(state.locationCompleteDate.pressure);
+    console.log(state.locationCompleteDate);
     return state.locationCompleteDate;
   } catch (err) {
     throw err;
@@ -167,6 +188,7 @@ function formatPercentage(value) {
     unit: "percent",
   }).format(value);
 }
+
 function formatTempertaure(value) {
   return new Intl.NumberFormat(navigator.language, {
     style: "unit",
@@ -187,7 +209,7 @@ function formatKmperHour(value, okFormat = false) {
 function extractDate(unixTimestamp) {
   const milliseconds = unixTimestamp * 1000;
   const date = new Date(milliseconds);
-  const options = { day: "numeric", month: "long" };
+  const options = { day:'2-digit' ,weekday: "short", month: "long" };
   const formatDate = new Intl.DateTimeFormat(
     navigator.language,
     options
@@ -212,9 +234,6 @@ loadStoredLocation();
 // Implement Hourly forcast scrolling
 const numberPage = 6;
 export function partialHourlyForecast(scrollTo = 0) {
-  // debugger
-  if (scrollTo > 7) scrollTo = 0;
-  if (scrollTo < 0) scrollTo = 7;
   const start = scrollTo * numberPage;
   const end = scrollTo * numberPage + numberPage;
   return state.locationCompleteDate.hourly.slice(start, end);
@@ -226,14 +245,16 @@ export function orderStoredLocations(storedlocation) {
   return storedlocation.sort((a, b) => b.time - a.time);
 }
 
-async function getMap() {
-  const map = await fetch(
-    `http://api.openweathermap.org/data/2.5/air_pollution?lat=31.2322758&lon=121.4692071&appid=${API_KEY}`
-  );
-
-  const data = await map.json();
-  console.log(data);
+function getAirQaulityIndex(value) {
+  // Quality Index. Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor.
+  const aqi = [
+    { key: 1, value: "Good" },
+    { key: 2, value: "Fair" },
+    { key: 3, value: "Moderate" },
+    { key: 4, value: "poor" },
+    { key: 5, value: "Very poor" },
+  ];
+  return aqi.find((obj) => obj.key === value);
 }
-getMap();
 
 // localStorage.removeItem('locations');

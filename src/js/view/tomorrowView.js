@@ -16,7 +16,7 @@ class TomorrowView {
       <p class="forecast_date">${data.date}</p>
     </div>
     <p class="weather_description">
-      <span class="weather_temp">${data.temp}°</span>${data.weatherDescription}
+      <span class="weather_temp">${data.temp}</span>${data.weatherDescription}
     </p>
     <img
       class="weather_img"
@@ -37,7 +37,7 @@ class TomorrowView {
           class="icon icon-more_info"
           name="thermometer-outline"
         ></ion-icon>
-        <span class="more_info_value">${data.feelsLike}°</span>
+        <span class="more_info_value">${data.feelsLike}</span>
         <span>feels like</span>
       </div>
       <div class="more_info_box">

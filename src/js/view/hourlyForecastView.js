@@ -2,19 +2,25 @@ class HourlyForecastView {
   _ParentContainer = document.querySelector(".result_container");
   _data;
 
-  render(data,scrollTo) {
+  render(data, scrollTo) {
     this._data = data;
     // this._parentContainer.querySelector(".hourly_forecast").innerHTML = "";
     this._ParentContainer
       .querySelector(".section-3")
-      .insertAdjacentHTML("afterbegin", this._generateMarkup(this._data,scrollTo));
+      .insertAdjacentHTML(
+        "afterbegin",
+        this._generateMarkup(this._data, scrollTo)
+      );
   }
 
-  _generateMarkup(data,scrollTo) {
-  
-    return `<div class="hourly_forecast"><button class="arrow arrow-left" data-scroll-to="${scrollTo?scrollTo:0}"><ion-icon  class="icon icon-left" name="chevron-back-outline"></ion-icon></button>${this._generateHourlyForecastMarkup(
+  _generateMarkup(data, scrollTo) {
+    return `<div class="hourly_forecast"><button class="arrow arrow-left" data-scroll-to="${
+      scrollTo ? scrollTo : 0
+    }"><ion-icon  class="icon icon-left" name="chevron-back-outline"></ion-icon></button>${this._generateHourlyForecastMarkup(
       data
-    )}<button class="arrow arrow-right" data-scroll-to="${scrollTo?scrollTo:0}"><ion-icon class="icon icon-left" name="chevron-forward-outline"></ion-icon></button>
+    )}<button class="arrow arrow-right" data-scroll-to="${
+      scrollTo ? scrollTo : 0
+    }"><ion-icon class="icon icon-left" name="chevron-forward-outline"></ion-icon></button>
     </div>`;
   }
 
@@ -24,10 +30,16 @@ class HourlyForecastView {
       .map(
         (hourForecast) => `
                 <div class="forecast">
-                  <span>${hourForecast.hour}</span>
+                  <span class="${
+                    hourForecast.hour.length > 2 ? "hourly_forcast_hour" : ""
+                  }">${
+          hourForecast.hour.length <= 2 ? hourForecast.hour + ":00" : ""
+        }</span>
                   <img
                     class="weather_img_tiny"
-                    src="https://openweathermap.org/img/wn/${hourForecast.icon}.png"
+                    src="https://openweathermap.org/img/wn/${
+                      hourForecast.icon
+                    }.png"
                     alt="weather icon"
                   />
                   <span>${hourForecast.temp}°</span>
@@ -43,7 +55,8 @@ class HourlyForecastView {
       if (!btn) return;
       let { scrollTo } = btn.dataset;
       btn.classList.contains("arrow-left") ? scrollTo-- : scrollTo++;
-      console.log(scrollTo)
+      if (scrollTo > 7) scrollTo = 0;
+      if (scrollTo < 0) scrollTo = 7;
       handler(scrollTo);
     });
   }

@@ -30,7 +30,7 @@ class LocationView {
         <p class="forecast_date">${data.date}</p>
       </div>
       <p class="weather_description">
-        <span class="weather_temp">${data.temp}°</span>${
+        <span class="weather_temp">${data.temp}</span>${
       data.weatherDescription
     }
       </p>
@@ -109,10 +109,16 @@ class LocationView {
         <div class="more_info_box">
           <ion-icon
             class="icon icon-more_info"
-            name="grid-outline"
+            name="earth-outline"
           ></ion-icon>
-          <span>close</span>
+          <span class="more_info_value"
+            >${
+              data.aqi
+            }</span
+          >
+          <span>air quality</span>
         </div>
+        
       </div>
     </div>
   </div>

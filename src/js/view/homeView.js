@@ -24,7 +24,7 @@ class HomeView {
                           <p class="forecast_date">${data.date}</p>
                         </div>
                         <p class="weather_description">
-                          <span class="weather_temp">${data.temp}°</span>${data.weatherDescription}
+                          <span class="weather_temp">${data.temp}</span>${data.weatherDescription}
                         </p>
                         <img
                           class="weather_img"

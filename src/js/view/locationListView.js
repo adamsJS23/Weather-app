@@ -11,7 +11,8 @@ class LocationListView {
     return query;
   }
 
-  render(data) {
+  render(data ) {
+    console.log(data)
     this._data = data;
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
@@ -19,8 +20,8 @@ class LocationListView {
     );
   }
 
-  _generateMarkup(data, lat, lon) {
-    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${lat}" data-location-lon="${lon}" >
+  _generateMarkup(data) {
+    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${data.lat}" data-location-lon="${data.lon}" >
                 <div class="location_detail">
                   <p class="location_name">
                     <ion-icon
@@ -32,7 +33,7 @@ class LocationListView {
                   <p class="forecast_date">${data.date}</p>
                 </div>
                 <p class="weather_description">
-                  <span class="weather_temp">${data.temp}°</span>${data.weatherDescription}
+                  <span class="weather_temp">${data.temp}</span>${data.weatherDescription}
                 </p>
                 <img
                   class="weather_img"
