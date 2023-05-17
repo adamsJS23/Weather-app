@@ -90,7 +90,7 @@ main {
 
 .location,
 .location_complete_info {
-  position: relative;
+  /* position: relative; */
   background-image: linear-gradient(to right, #db9864, #db6464);
   color: #fbf5f0;
   padding: 1.2rem;
@@ -107,9 +107,8 @@ main {
 }
 
 .location_name {
-  display: flex;
-  /* justify-content: center; */
-  gap: 0.8rem;
+  display: grid;
+  grid-template-columns: 15fr 85fr;
   font-size: 1.6rem;
   line-height: 1.8rem;
 }
@@ -129,8 +128,16 @@ main {
 }
 
 .weather_description {
-  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
   font-size: 1.6rem;
+}
+
+.weather_temp_box {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
 }
 
 .weather_temp {
@@ -141,10 +148,6 @@ main {
 .weather_img {
   width: 9rem;
   height: 9rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(-25%, -5%);
 }
 
 .location_more_info {

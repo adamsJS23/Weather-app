@@ -11,8 +11,8 @@ class LocationListView {
     return query;
   }
 
-  render(data ) {
-    console.log(data)
+  render(data) {
+    console.log(data);
     this._data = data;
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
@@ -32,14 +32,15 @@ class LocationListView {
                   </p>
                   <p class="forecast_date">${data.date}</p>
                 </div>
-                <p class="weather_description">
-                  <span class="weather_temp">${data.temp}</span>${data.weatherDescription}
-                </p>
-                <img
-                  class="weather_img"
-                  src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
-                  alt="Current weather icon"
-                /></div
+                <div class="weather_description">
+                  <img
+                    class="weather_img"
+                    src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
+                    alt="Current weather icon"
+                  />
+                  <div class="weather_temp_box">
+                  <span class="weather_temp">${data.temp}</span><span>${data.weatherDescription}</span></div>
+                </div>
             >`;
   }
   addHandlerAdd(handler) {

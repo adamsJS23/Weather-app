@@ -29,16 +29,17 @@ class LocationView {
         </p>
         <p class="forecast_date">${data.date}</p>
       </div>
-      <p class="weather_description">
-        <span class="weather_temp">${data.temp}</span>${
-      data.weatherDescription
-    }
-      </p>
-      <img
-        class="weather_img"
-        src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
-        alt="Current weather icon"
-      />
+      <div class="weather_description">
+              <img
+                class="weather_img"
+                src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
+                alt="Current weather icon"
+              />
+            <div class="weather_temp_box">
+              <span class="weather_temp">${data.temp}</span><span>${data.weatherDescription}</span>
+            </div>
+      </div>
+      
       <div class="location_more_info">
         <div class="more_info_box">
           <ion-icon
@@ -100,9 +101,7 @@ class LocationView {
             name="eye-outline"
           ></ion-icon>
           <span class="more_info_value"
-            >${
-              data.visibility
-            }</span
+            >${data.visibility}</span
           >
           <span>visibilty</span>
         </div>
@@ -112,9 +111,7 @@ class LocationView {
             name="earth-outline"
           ></ion-icon>
           <span class="more_info_value"
-            >${
-              data.aqi
-            }</span
+            >${data.aqi}</span
           >
           <span>air quality</span>
         </div>
