@@ -11,18 +11,19 @@ class TomorrowView {
 
   _generateMarkup(data) {
     return `<div class="location_complete_info">
-    <div class="location_header">
-      
-        <p class="forecast_date">${data.date}</p>
-      </div>
-      <p class="weather_description">
-        <span class="weather_temp">${data.temp}</span>${data.weatherDescription}
-      </p>
+    <div class="tomorrow_location_header">
+      <p class="forecast_date">${data.date}</p>
       <img
         class="weather_img"
         src="https://openweathermap.org/img/wn/${data.icon}@2x.png"
         alt="Current weather icon"
       />
+    </div>
+    <div class="weather_temp_box">
+    <span class="weather_temp">${data.temp}</span>
+    <span class="weather_description">${data.weatherDescription}</span>
+  </div>
+      
     <div class="tomorrow_more_info">
       <div class="more_info_box">
         <ion-icon

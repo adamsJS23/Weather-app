@@ -22,16 +22,7 @@ class LocationListView {
 
   _generateMarkup(data) {
     return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${data.lat}" data-location-lon="${data.lon}" >
-                <div class="location_detail">
-                  <p class="location_name">
-                    <ion-icon
-                      class="icon icon-location"
-                      name="location-outline"
-                    ></ion-icon
-                    >${data.locationName},<br />${data.countryName}
-                  </p>
-                  <p class="forecast_date">${data.date}</p>
-                </div>
+                
                 <div class="weather_description">
                             <div class="location_detail">
                               <p class="location_name">

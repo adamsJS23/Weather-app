@@ -17,7 +17,12 @@ export async function findLocation(query) {
     const geocodeData = await fetchData(
       `${URL_GEOCODE}direct?q=${query}&appid=${API_KEY}`
     );
-    const { lat, lon, country } = geocodeData[0];
+    try{
+
+      const { lat, lon, country } = geocodeData[0];
+    }catch(err){
+      throw new Error('invalid location')
+    }
 
     // const countryData = await fetchData(
     //   `http://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=1&appid=${API_KEY}`
@@ -90,6 +95,8 @@ export async function displayLocation(obj) {
     const aqiData = await fetchData(
       `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
+
+    console.log(aqiData)
     const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
     const aqiObject = getAirQaulityIndex(aqi);
 

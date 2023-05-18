@@ -19,6 +19,7 @@ function controlStoredLocation() {
 
 async function controlLocation() {
   try {
+    debugger
     // Get user query
     const query = LocationListView.getQuery();
     await model.findLocation(query, false);

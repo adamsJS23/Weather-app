@@ -119,10 +119,6 @@ main {
   gap: 0.8rem;
 }
 
-.location_first_box {
-  
-}
-
 .forecast_date {
   font-size: 1.2rem;
 }
@@ -137,7 +133,9 @@ main {
 }
 
 .weather_temp_box {
-  display: flex;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  column-gap: 1.2rem;
   font-size: 1.6rem;
   height: 3rem;
 }
@@ -145,10 +143,20 @@ main {
 .weather_temp {
   font-size: 3.2rem;
   margin-right: 1.6rem;
+  position: relative;
+}
+
+.weather_temp::after {
+  content: '°C';
+  position: absolute;
+  font-size: 1.6rem;
+  top: 0;
+  right: 0;
+  transform: translate(150%,34%);
 }
 
 .weather_description {
-  align-self: flex-end;
+  align-self: center;
 }
 
 .weather_img {
@@ -166,12 +174,11 @@ main {
 }
 
 .tomorrow_more_info {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   padding-top: 2.4rem;
-  justify-items: space-between;
+  justify-items: center;
   align-items: center;
-  /* width: 30rem; */
-  gap: 2rem;
 }
 
 .more_info_box {
@@ -200,6 +207,7 @@ main {
   justify-content: center;
   align-items: center;
   gap: 3px;
+  margin: 1.2rem 0;
 }
 
 .line-long {
@@ -260,7 +268,7 @@ main {
 
 .section-3 {
   position: relative;
-  /* margin: 5rem 0; */
+  margin-top: 1.2rem;
 }
 
 .hourly_forecast {
@@ -374,3 +382,31 @@ main {
 .hidden {
   display: none;
 }
+
+/****************************************************/
+/*****************Tomorow View***********************/
+.tomorrow_location_header{
+  /* display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: 50%;
+  align-items: center; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+  padding-top: 1.2rem;
+  margin-bottom: 2.2rem;
+  /* padding: 1.2rem; */
+}
+
+.Tomorrow_weather_description{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: 70%;
+}
+
+.tomorrow_forecast_date{
+ align-self: flex-end; 
+}
+
+/****************End css tomorrow view****************/
