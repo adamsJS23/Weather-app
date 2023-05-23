@@ -3,68 +3,134 @@ import { fetchData } from "./helper.js";
 import { URL_GEOCODE } from "./config.js";
 
 export const state = {
+  location: {},
   searchedLocation: {},
   storedLocation: [],
-  locationCompleteDate: {},
+  locationCompleteData: {},
   forecastOnScroll: 6,
 };
 
-export async function findLocation(query) {
+export async function fetchLocationCoordinate(query) {
   try {
-    if (!query) {
-      throw new Error('"Invalid location"');
-    }
     const geocodeData = await fetchData(
       `${URL_GEOCODE}direct?q=${query}&appid=${API_KEY}`
     );
-    try{
-
-      const { lat, lon, country } = geocodeData[0];
-    }catch(err){
-      throw new Error('invalid location')
-    }
-
-    // const countryData = await fetchData(
-    //   `http://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=1&appid=${API_KEY}`
-    // ); Doesn't retrun the expected result searching location like paris, ougadougou
-    const countryData = await fetchData(
-      `https://restcountries.com/v3.1/alpha/${country}`
-    );
-
-    const weatherData = await fetchData(
-      `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
-        .toString()
-        .slice(-2)
-        .toLowerCase()}&units=metric&appid=${API_KEY}`
-    );
-
-    // formatting data different api request
-    formatSearchedLocation(weatherData, countryData, geocodeData);
-
-    const { countryName, locationName, locationLat, locationLon } =
-      state.searchedLocation;
-    state.storedLocation.push({
-      countryName,
-      locationName,
-      locationLat: lat,
-      locationLon: lon,
-    });
-    // Store the locations to the local storage
-    storeLocation(state.storedLocation);
-    // Update the location local storage
-    loadStoredLocation();
+    if (!geocodeData.length) throw new Error("invalid location");
+    const {
+      lat,
+      lon,
+      country: countryCode,
+      name: locationName,
+    } = geocodeData[0];
+    state.searchedLocation = { lat, lon, countryCode, locationName };
   } catch (err) {
     throw err;
   }
 }
 
-function formatSearchedLocation(weatherData, countryData, geocodeData) {
-  state.searchedLocation = {
-    locationName: geocodeData[0].name,
-    countryName: countryData[0].name.common,
-    lat: geocodeData[0].lat,
-    lon: geocodeData[0].lon,
+export async function fectchLocationData(dataObject) {
+  try {
+    const { countryCode } = dataObject;
+    const countryData = await fetchData(
+      `https://restcountries.com/v3.1/alpha/${countryCode}`
+    );
+    state.searchedLocation.countryName = countryData[0].name.common;
+  } catch (err) {
+    throw "Country not found";
+  }
+}
 
+export async function fetchLocationWeatherData(dataObject) {
+  const { lat, lon } = dataObject;
+
+  const weatherData = await fetchData(
+    `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
+      .toString()
+      .slice(-2)
+      .toLowerCase()}&units=metric&appid=${API_KEY}`
+  );
+  state.searchedLocation.weatherData = weatherData;
+}
+
+export async function fetchLocationAirQuality(dataObject) {
+  try {
+    const { lat, lon } = dataObject;
+    const aqiData = await fetchData(
+      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+    );
+    const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
+    const aqiObject = getAirQaulityIndex(aqi);
+    state.searchedLocation.aqi = aqiObject;
+
+    formatSearchedLocation(state.searchedLocation);
+  } catch (err) {
+    console.error(err);
+    throw "Can not find air quality data";
+  }
+}
+
+function getHourlyForecast(dataArray) {
+  return dataArray.map((hourForecast) => {
+    const hour = new Intl.DateTimeFormat("en-GB", { hour: "2-digit" }).format(
+      hourForecast.dt * 1000
+    );
+    const temp = Math.round(hourForecast.temp);
+    const { icon } = hourForecast.weather[0];
+    return { hour, temp, icon };
+  });
+}
+
+function getDailyForecast(dataArray) {
+  return dataArray.map((dayForecast, i) => {
+    let dayLong;
+    const unixTimestamp = dayForecast.dt * 1000;
+    // const dayNumeric = new Date(unixTimestamp).getDate();
+    const dayNumeric = new Intl.DateTimeFormat(navigator.language, {
+      day: "2-digit",
+    }).format(unixTimestamp);
+    if (i === 0 || i === 1) {
+      dayLong = new Intl.RelativeTimeFormat(navigator.language, {
+        numeric: "auto",
+      }).format(i, "day");
+    } else {
+      dayLong = new Intl.DateTimeFormat(navigator.language, {
+        weekday: "long",
+      }).format(unixTimestamp);
+    }
+
+    const min = Math.round(dayForecast.temp.min);
+    const max = Math.round(dayForecast.temp.max);
+    const icon = dayForecast.weather[0].icon;
+    return { min, max, dayLong, dayNumeric, icon };
+  });
+}
+
+function tomorrowForecast(tomorrowWeather) {
+  const { clouds, humidity, uvi, wind_speed, feels_like, temp, weather, dt } =
+    tomorrowWeather;
+  const { day: feelsLike } = feels_like;
+  const { description: weatherDescription, icon } = weather[0];
+  const { day: dayTemp } = temp;
+  return {
+    clouds,
+    humidity,
+    uvi: Math.round(uvi),
+    windSpeed: Math.round(wind_speed),
+    feelsLike: Math.round(feelsLike),
+    date: extractDate(dt),
+    weatherDescription,
+    icon,
+    temp: Math.round(dayTemp),
+  };
+}
+
+function formatSearchedLocation(data) {
+  const { weatherData } = data;
+  state.location = {
+    locationName: data.locationName,
+    countryName: data.countryName,
+    locationLat: data.lat,
+    locationLon: data.lon,
     temp: Math.round(weatherData.current.temp),
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
@@ -82,85 +148,16 @@ export async function displayLocation(obj) {
       countryName,
     } = obj;
 
-    // const weatherData = await fetchData(
-    //   `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=de&units=metric&appid=${API_KEY}`
-    // );
-    const weatherData = await fetchData(
-      `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
-        .toString()
-        .slice(-2)
-        .toLowerCase()}&units=metric&appid=${API_KEY}`
+    const forecastHourly = getHourlyForecast(
+      state.searchedLocation.weatherData.hourly
     );
 
-    const aqiData = await fetchData(
-      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+    const forecastDaily = getDailyForecast(
+      state.searchedLocation.weatherData.daily
     );
+    const { weatherData, aqi } = state.searchedLocation;
 
-    console.log(aqiData)
-    const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
-    const aqiObject = getAirQaulityIndex(aqi);
-
-    const forecastHourly = weatherData.hourly.map((hourForecast) => {
-      // const hour = `${new Date(hourForecast.dt * 1000).getHours()}:00`;
-      const hour = new Intl.DateTimeFormat("en-GB", { hour: "2-digit" }).format(
-        hourForecast.dt * 1000
-      );
-      const temp = Math.round(hourForecast.temp);
-      const { icon } = hourForecast.weather[0];
-      return { hour, temp, icon };
-    });
-
-    const forecastDaily = weatherData.daily.map((dayForecast, i) => {
-      let dayLong;
-      const unixTimestamp = dayForecast.dt * 1000;
-      // const dayNumeric = new Date(unixTimestamp).getDate();
-      const dayNumeric = new Intl.DateTimeFormat(navigator.language, {
-        day: "2-digit",
-      }).format(unixTimestamp);
-      if (i === 0 || i === 1) {
-        dayLong = new Intl.RelativeTimeFormat(navigator.language, {
-          numeric: "auto",
-        }).format(i, "day");
-      } else {
-        dayLong = new Intl.DateTimeFormat(navigator.language, {
-          weekday: "long",
-        }).format(unixTimestamp);
-      }
-
-      const min = Math.round(dayForecast.temp.min);
-      const max = Math.round(dayForecast.temp.max);
-      const icon = dayForecast.weather[0].icon;
-      return { min, max, dayLong, dayNumeric, icon };
-    });
-
-    function tomorrowForecast(tomorrowWeather) {
-      const {
-        clouds,
-        humidity,
-        uvi,
-        wind_speed,
-        feels_like,
-        temp,
-        weather,
-        dt,
-      } = tomorrowWeather;
-      const { day: feelsLike } = feels_like;
-      const { description: weatherDescription, icon } = weather[0];
-      const { day: dayTemp } = temp;
-      return {
-        clouds,
-        humidity,
-        uvi: Math.round(uvi),
-        windSpeed: Math.round(wind_speed),
-        feelsLike: Math.round(feelsLike),
-        date: extractDate(dt),
-        weatherDescription,
-        icon,
-        temp: Math.round(dayTemp),
-      };
-    }
-
-    state.locationCompleteDate = {
+    state.locationCompleteData = {
       locationName: locationName,
       countryName: countryName,
       temp: Math.round(weatherData.current.temp),
@@ -180,10 +177,10 @@ export async function displayLocation(obj) {
       hourly: forecastHourly,
       daily: forecastDaily,
       tomorrow: tomorrowForecast(weatherData.daily[1]),
-      aqi: aqiObject.value,
+      aqi: aqi.value,
     };
-    console.log(state.locationCompleteDate);
-    return state.locationCompleteDate;
+    console.log(state.locationCompleteData);
+    return state.locationCompleteData;
   } catch (err) {
     throw err;
   }
@@ -216,7 +213,7 @@ function formatKmperHour(value, okFormat = false) {
 function extractDate(unixTimestamp) {
   const milliseconds = unixTimestamp * 1000;
   const date = new Date(milliseconds);
-  const options = { day:'2-digit' ,weekday: "short", month: "long" };
+  const options = { day: "2-digit", weekday: "short", month: "long" };
   const formatDate = new Intl.DateTimeFormat(
     navigator.language,
     options
@@ -243,7 +240,7 @@ const numberPage = 6;
 export function partialHourlyForecast(scrollTo = 0) {
   const start = scrollTo * numberPage;
   const end = scrollTo * numberPage + numberPage;
-  return state.locationCompleteDate.hourly.slice(start, end);
+  return state.locationCompleteData.hourly.slice(start, end);
 }
 // End hourly forcecast scroll
 
@@ -265,3 +262,17 @@ function getAirQaulityIndex(value) {
 }
 
 // localStorage.removeItem('locations');
+
+export function savedLocation() {
+  
+  state.storedLocation.push({
+    locationLat: state.location.locationLat,
+    locationLon: state.location.locationLon,
+    countryName: state.location.countryName,
+    locationName: state.location.locationName,
+  });
+  // Store the new location in local storage
+  storeLocation(state.storedLocation);
+  // Update storedLocation in State
+  loadStoredLocation();
+}

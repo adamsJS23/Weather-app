@@ -2,17 +2,18 @@ class HomeView {
   _ParentContainer = document.querySelector(".result_container");
   _data;
 
-  render(data, lat, lon) {
+  render(data, location) {
     this._data = data;
     // this.clear();
     this._ParentContainer.insertAdjacentHTML(
       "afterbegin",
-      this._generateMarkup(this._data, lat, lon)
+      this._generateMarkup(this._data, location)
     );
   }
 
-  _generateMarkup(data, lat, lon) {
-    return `            <div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${lat}" data-location-lon="${lon}" >
+  _generateMarkup(data, location) {
+    console.log(data)
+    return `            <div class="location" data-country-name="${location.countryName}" data-location-name="${location.locationName}"  data-location-lat="${location.lat}" data-location-lon="${location.lon}" >
                         <div class="weather_description">
                             <div class="location_detail">
                               <p class="location_name">
@@ -20,7 +21,7 @@ class HomeView {
                                   class="icon icon-location"
                                   name="location-outline"
                                 ></ion-icon
-                                >${data.locationName},<br />${data.countryName}
+                                >${location.locationName},<br />${location.countryName}
                               </p>
                               <p class="forecast_date">${data.date}</p>
                             </div>

@@ -129,7 +129,6 @@ main {
   grid-template-rows: 70%;
   align-content: center;
   justify-content: space-between;
-  
 }
 
 .weather_temp_box {
@@ -147,12 +146,12 @@ main {
 }
 
 .weather_temp::after {
-  content: '°C';
+  content: "°C";
   position: absolute;
   font-size: 1.6rem;
   top: 0;
   right: 0;
-  transform: translate(150%,34%);
+  transform: translate(150%, 34%);
 }
 
 .weather_description {
@@ -385,7 +384,7 @@ main {
 
 /****************************************************/
 /*****************Tomorow View***********************/
-.tomorrow_location_header{
+.tomorrow_location_header {
   /* display: grid;
   grid-template-columns: repeat(2,1fr);
   grid-template-rows: 50%;
@@ -399,14 +398,26 @@ main {
   /* padding: 1.2rem; */
 }
 
-.Tomorrow_weather_description{
+.Tomorrow_weather_description {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 70%;
 }
 
-.tomorrow_forecast_date{
- align-self: flex-end; 
+.tomorrow_forecast_date {
+  align-self: flex-end;
 }
 
 /****************End css tomorrow view****************/
+
+.error {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .8rem;
+  background-color: #3f4c52;
+  color: #ffcaca;
+  padding: .8rem 1.6rem;
+  border-radius: 100vmax;
+}

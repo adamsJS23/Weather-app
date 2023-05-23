@@ -58,6 +58,18 @@ class LocationListView {
       e.keyCode == 13 && handler();
     });
   }
+
+  renderError(errorMessage) {
+    const markup = `<div class="error">
+    <ion-icon class="icon error-icon" name="warning-outline"></ion-icon><p>${errorMessage}</p>
+                    </div>`;
+    this._ParentContainer.innerHTML = "";
+    this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  clear() {
+    this._ParentContainer.innerHTML = "";
+  }
 }
 
 export default new LocationListView();

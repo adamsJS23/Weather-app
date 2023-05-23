@@ -1,6 +1,7 @@
-export const API_KEY='9e36b47c420fcfbcdc845a3d92921bc9'
-export const URL_GEOCODE='http://api.openweathermap.org/geo/1.0/'
-export const URL_ONE_CALL='https://api.openweathermap.org/data/3.0/'
+export const API_KEY = "9e36b47c420fcfbcdc845a3d92921bc9";
+export const URL_GEOCODE = "http://api.openweathermap.org/geo/1.0/";
+export const URL_ONE_CALL = "https://api.openweathermap.org/data/3.0/";
+export const TIME_CLEAR_ERROR = 5000;
 
 // async function AJAX(url) {
 //   try {
@@ -25,8 +26,6 @@ export const URL_ONE_CALL='https://api.openweathermap.org/data/3.0/'
 // const date= new Date()
 // console.log(date.getMonth())
 
-
-
 // const date2=new Date(1682964694000)
 // console.log(date2.getDay(),'day')
 // console.log(date2.getMonth(),'month')
@@ -44,13 +43,9 @@ export const URL_ONE_CALL='https://api.openweathermap.org/data/3.0/'
 // console.log(dateObject)
 
 // const unixTimestamp1 = 1575909015
-// const milliseconds1 = unixTimestamp * 1000 
+// const milliseconds1 = unixTimestamp * 1000
 // const dateObject1 = new Date(milliseconds)
-// const humanDateFormat1 = dateObject.toLocaleString() 
+// const humanDateFormat1 = dateObject.toLocaleString()
 // console.log(humanDateFormat1)
-
-
-
-
 
 // // I city is compsed by 2 words then replace the space underscore bobo_dioulasso
