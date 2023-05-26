@@ -86,13 +86,15 @@ main {
   gap: 0.8rem;
 
   min-height: 100vh;
+  position: relative;
 }
 
 .location,
 .location_complete_info {
   background-image: linear-gradient(to right, #db9864, #db6464);
   color: #fbf5f0;
-  padding: 0 1.2rem 1.2rem;
+  /* padding: 0 1.2rem 1.2rem; */
+  padding: 0 1.2rem 2.4rem 1.2rem;
   border-radius: 9px;
   cursor: pointer;
 }
@@ -134,7 +136,7 @@ main {
 .weather_temp_box {
   display: grid;
   grid-template-columns: 20% 80%;
-  column-gap: 1.2rem;
+  column-gap: 2.4rem;
   font-size: 1.6rem;
   height: 3rem;
 }
@@ -407,17 +409,61 @@ main {
 .tomorrow_forecast_date {
   align-self: flex-end;
 }
+/* *****************Spinner****************************** */
+.spinner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 5rem;
+  width: 5rem;
+  background-color: rgba(208, 230, 240, 0.217);
+  border-radius: 8px;
+
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* transform: translateY(-50%); */
+}
+
+.loader {
+  height: 3rem;
+  width: 3rem;
+  border-left: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #db6464;
+  border-bottom: 5px solid transparent;
+  border-radius: 50%;
+  z-index: 999;
+  animation: rotating linear .5s infinite;
+}
+
+@keyframes rotating{
+  0%{
+    transform:rotate(0deg)}
+  
+  100%{
+    transform: rotate(360deg);
+  }
+}
 
 /****************End css tomorrow view****************/
 
-.error {
+.error,.message {
   font-size: 1.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: .8rem;
+  gap: 0.8rem;
   background-color: #3f4c52;
-  color: #ffcaca;
-  padding: .8rem 1.6rem;
+  padding: 0.8rem 1.6rem;
   border-radius: 100vmax;
+}
+
+.error{
+  color: #ffcaca;
+  
+}
+.message{
+color: #d0e6f0;
 }

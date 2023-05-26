@@ -3,6 +3,7 @@ class LocationListView {
   _iptAdd = document.querySelector(".ipt-add");
   _ParentContainer = document.querySelector(".result_container");
   _data;
+  _spinner;
 
   getQuery() {
     const query = this._iptAdd.value;
@@ -61,10 +62,38 @@ class LocationListView {
 
   renderError(errorMessage) {
     const markup = `<div class="error">
-    <ion-icon class="icon error-icon" name="warning-outline"></ion-icon><p>${errorMessage}</p>
+    <ion-icon class="icon" name="warning-outline"></ion-icon><p>${errorMessage}</p>
                     </div>`;
-    this._ParentContainer.innerHTML = "";
     this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+  renderMessage(message = "There is not stored location") {
+    const markup = `<div class="message">
+    <ion-icon class="icon" name="information-circle-outline"></ion-icon><p>${message}</p>
+                    </div>`;
+    this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  removeErrorMessage() {
+    this._ParentContainer.querySelector(".error").remove();
+  }
+
+  removeMessage() {
+    this._ParentContainer.querySelector(".message").remove();
+  }
+
+  renderSpinner() {
+    // const markup = ` <div class="spinner">
+    // </div>`;
+    // this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+    this._spinner = document.createElement("div");
+    this._spinner.innerHTML = `<div class="spinner">
+    <div class="loader"></div>
+    </div>`;
+    this._ParentContainer.prepend(this._spinner);
+  }
+
+  removeSpinner() {
+    this._spinner.remove();
   }
 
   clear() {

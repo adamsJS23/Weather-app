@@ -9,19 +9,48 @@ import * as model from "./model.js"; // Import every thing from the model
 import locationView from "./src/js/view/locationView.js";
 import locationListView from "./src/js/view/locationListView.js";
 import { TIME_CLEAR_ERROR } from "./config.js";
-function controlStoredLocation() {
-  HomeView.clear();
-  model.state.storedLocation.forEach(async function (location) {
-    const { locationLat: lat, locationLon: lon } = location;
-    // await countryName, locationName from countryCode
-    await model.fetchLocationWeatherData({ lat, lon });
-    // await air quanlity data
-    await model.fetchLocationAirQuality({ lat, lon });
-    // Render location
-    // LocationListView.render(model.state.location);
-    console.log(model.state.searchedLocation);
-    HomeView.render(model.state.location, location);
-  });
+
+async function controlStoredLocation() {
+  try {
+    if (!model.state.storedLocation.length) {
+      showMessage();
+      return;
+    }
+    // HomeView.clear();
+    locationListView.renderSpinner()
+    await model.fetchStoredLocationWeatherData(model.state.storedLocation);
+    locationListView.removeSpinner()
+    console.log(model.state.storedLocationWeatherData)
+    HomeView.render(model.state.storedLocationWeatherData);
+    
+
+  } catch (err) {
+    console.error(err);
+  }
+  // if (!model.state.storedLocation.length) {
+  //   showMessage();
+  //   return;
+  // }
+  // model.state.storedLocation.forEach(async function (location) {
+  //   try {
+  //     const { locationLat: lat, locationLon: lon } = location;
+  //     locationListView.renderSpinner();
+  //     // await countryName, locationName from countryCode
+  //     await model.fetchLocationWeatherData({ lat, lon });
+  //     // await air quanlity data
+  //     await model.fetchLocationAirQuality({ lat, lon });
+  //     // Render location
+  //     locationListView.removeSpinner()
+  //     // LocationListView.render(model.state.location);
+  //     console.log(model.state.searchedLocation);
+  //   } catch (err) {
+  //     showErrorMessage(err);
+  //   }finally
+  //   {
+  //     locationListView.removeSpinner()
+  //   }
+  // });
+  // locationListView.removeSpinner()
 }
 
 /*****************Event:Page Load********************/
@@ -60,6 +89,7 @@ async function ctrlFetchLocationCoordinate() {
       throw "Empty query";
     }
     // debugger
+    locationListView.renderSpinner();
     // await the lat, lon, countryCode from query
     await model.fetchLocationCoordinate(query, false);
     // await countryName, locationName from countryCode
@@ -68,6 +98,7 @@ async function ctrlFetchLocationCoordinate() {
     await model.fetchLocationWeatherData(model.state.searchedLocation);
     // await air quanlity data
     await model.fetchLocationAirQuality(model.state.searchedLocation);
+    locationListView.removeSpinner();
     // Render location
     LocationListView.render(model.state.location);
     // Bookmarked location
@@ -76,25 +107,24 @@ async function ctrlFetchLocationCoordinate() {
     console.log(model.state.searchedLocation);
     console.log(model.state.location);
   } catch (err) {
-    console.error(err);
-    LocationListView.renderError(err);
-    setTimeout(() => locationListView.clear(), TIME_CLEAR_ERROR);
+    showErrorMessage(err);
   }
 }
 
 async function controlDisplayLocation(data) {
   try {
-    await model.displayLocation(data);
-    console.log(model.state.locationCompleteData);
-    LocationView.render(model.state.locationCompleteData);
+    locationListView.renderSpinner();
+    await model.gatherWeatherData(data);
+    locationListView.removeSpinner();
+    console.log(model.state.locationWeatherData);
+    LocationView.render(model.state.locationWeatherData);
     // debugger;
     HourlyForecastView.render(model.partialHourlyForecast(0), 0);
 
     // LocationMapView.render feature
     MapView.render();
   } catch (err) {
-    console.error(err);
-    LocationListView.renderError(err);
+    showErrorMessage(err);
   }
 }
 
@@ -107,12 +137,12 @@ function controlMenu(targetMenu) {
   }
   if (targetMenu === "tomorrow") {
     locationView.clear();
-    TomorrowView.render(model.state.locationCompleteData.tomorrow);
+    TomorrowView.render(model.state.locationWeatherData.tomorrow);
   }
 
   if (targetMenu === "next_7_day") {
     locationView.clear();
-    DailyForescastView.render(model.state.locationCompleteData);
+    DailyForescastView.render(model.state.locationWeatherData);
   }
 }
 
@@ -122,6 +152,17 @@ function controlPartialHourlyForecast(scrollTo) {
   // debugger;
   HourlyForecastView.render(model.partialHourlyForecast(scrollTo), scrollTo);
   MapView.render();
+}
+
+function showErrorMessage(err) {
+  console.error(err);
+  LocationListView.renderError(err);
+  setTimeout(() => locationListView.removeErrorMessage(), TIME_CLEAR_ERROR);
+}
+
+function showMessage() {
+  LocationListView.renderMessage();
+  setTimeout(() => locationListView.removeMessage(), TIME_CLEAR_ERROR);
 }
 
 init();

@@ -6,7 +6,8 @@ export const state = {
   location: {},
   searchedLocation: {},
   storedLocation: [],
-  locationCompleteData: {},
+  locationWeatherData: {},
+  storedLocationWeatherData: [],
   forecastOnScroll: 6,
 };
 
@@ -50,6 +51,7 @@ export async function fetchLocationWeatherData(dataObject) {
       .toLowerCase()}&units=metric&appid=${API_KEY}`
   );
   state.searchedLocation.weatherData = weatherData;
+  return weatherData;
 }
 
 export async function fetchLocationAirQuality(dataObject) {
@@ -105,7 +107,7 @@ function getDailyForecast(dataArray) {
   });
 }
 
-function tomorrowForecast(tomorrowWeather) {
+function getTomorrowForecast(tomorrowWeather) {
   const { clouds, humidity, uvi, wind_speed, feels_like, temp, weather, dt } =
     tomorrowWeather;
   const { day: feelsLike } = feels_like;
@@ -137,16 +139,17 @@ function formatSearchedLocation(data) {
     icon: weatherData.current.weather[0].icon,
     time: Date.now(),
   };
+  return state.location;
 }
 
-export async function displayLocation(obj) {
+export async function gatherWeatherData(dataObject) {
   try {
     const {
       locationLat: lat,
       locationLon: lon,
       locationName,
       countryName,
-    } = obj;
+    } = dataObject;
 
     const forecastHourly = getHourlyForecast(
       state.searchedLocation.weatherData.hourly
@@ -157,7 +160,7 @@ export async function displayLocation(obj) {
     );
     const { weatherData, aqi } = state.searchedLocation;
 
-    state.locationCompleteData = {
+    state.locationWeatherData = {
       locationName: locationName,
       countryName: countryName,
       temp: Math.round(weatherData.current.temp),
@@ -176,11 +179,10 @@ export async function displayLocation(obj) {
       icon: weatherData.current.weather[0].icon,
       hourly: forecastHourly,
       daily: forecastDaily,
-      tomorrow: tomorrowForecast(weatherData.daily[1]),
+      tomorrow: getTomorrowForecast(weatherData.daily[1]),
       aqi: aqi.value,
     };
-    console.log(state.locationCompleteData);
-    return state.locationCompleteData;
+    return state.locationWeatherData;
   } catch (err) {
     throw err;
   }
@@ -240,7 +242,7 @@ const numberPage = 6;
 export function partialHourlyForecast(scrollTo = 0) {
   const start = scrollTo * numberPage;
   const end = scrollTo * numberPage + numberPage;
-  return state.locationCompleteData.hourly.slice(start, end);
+  return state.locationWeatherData.hourly.slice(start, end);
 }
 // End hourly forcecast scroll
 
@@ -261,10 +263,9 @@ function getAirQaulityIndex(value) {
   return aqi.find((obj) => obj.key === value);
 }
 
-// localStorage.removeItem('locations');
+localStorage.removeItem('locations');
 
 export function savedLocation() {
-  
   state.storedLocation.push({
     locationLat: state.location.locationLat,
     locationLon: state.location.locationLon,
@@ -275,4 +276,27 @@ export function savedLocation() {
   storeLocation(state.storedLocation);
   // Update storedLocation in State
   loadStoredLocation();
+}
+
+export async function fetchStoredLocationWeatherData(dataArray) {
+  //  1. fetch weather
+  dataArray.forEach(async function (location) {
+    const {
+      locationLat: lat,
+      locationLon: lon,
+      countryName,
+      locationName,
+    } = location;
+    // await countryName, locationName from countryCode
+    const weatherData = await fetchLocationWeatherData({ lat, lon });
+    //  2. formated searched location
+    state.searchedLocation = { lat, lon, countryName, locationName };
+    state.searchedLocation.weatherData = weatherData;
+    //  3. Push searched loaction into storedLocationWeatherData
+    const data = formatSearchedLocation(state.searchedLocation);
+    // console.log(data)
+    state.storedLocationWeatherData.push(data);
+  });
+
+  console.log(state.storedLocationWeatherData);
 }
