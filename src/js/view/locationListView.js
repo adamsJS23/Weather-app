@@ -1,7 +1,7 @@
 class LocationListView {
   _btnApp = document.querySelector(".btn-app");
   _iptAdd = document.querySelector(".ipt-add");
-  _ParentContainer = document.querySelector(".result_container");
+  _parentContainer = document.querySelector(".result_container");
   _data;
   _spinner;
 
@@ -13,16 +13,17 @@ class LocationListView {
   }
 
   render(data) {
+
     console.log(data);
     this._data = data;
-    this._ParentContainer.insertAdjacentHTML(
+    this._parentContainer.insertAdjacentHTML(
       "afterbegin",
       this._generateMarkup(this._data)
     );
   }
 
   _generateMarkup(data) {
-    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-location-lat="${data.lat}" data-location-lon="${data.lon}" >
+    return `<div class="location" data-country-name="${data.countryName}" data-location-name="${data.locationName}"  data-lat="${data.lat}" data-lon="${data.lon}" >
                 
                 <div class="weather_description">
                             <div class="location_detail">
@@ -60,36 +61,50 @@ class LocationListView {
     });
   }
 
+
+  addHandlerClick(handler) {
+    
+    this._parentContainer.addEventListener("click", function (e) {
+      e.preventDefault();
+      const location = e.target.closest(".location");
+      if (!location) return;
+      const { lat, lon, locationName, countryName } =
+        e.target.closest(".location").dataset;
+
+      handler({ lat, lon, locationName, countryName });
+    });
+  }
+
   renderError(errorMessage) {
     const markup = `<div class="error">
     <ion-icon class="icon" name="warning-outline"></ion-icon><p>${errorMessage}</p>
                     </div>`;
-    this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+    this._parentContainer.insertAdjacentHTML("afterbegin", markup);
   }
   renderMessage(message = "There is not stored location") {
     const markup = `<div class="message">
     <ion-icon class="icon" name="information-circle-outline"></ion-icon><p>${message}</p>
                     </div>`;
-    this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+    this._parentContainer.insertAdjacentHTML("afterbegin", markup);
   }
 
   removeErrorMessage() {
-    this._ParentContainer.querySelector(".error").remove();
+    this._parentContainer.querySelector(".error").remove();
   }
 
   removeMessage() {
-    this._ParentContainer.querySelector(".message").remove();
+    this._parentContainer.querySelector(".message").remove();
   }
 
   renderSpinner() {
     // const markup = ` <div class="spinner">
     // </div>`;
-    // this._ParentContainer.insertAdjacentHTML("afterbegin", markup);
+    // this._parentContainer.insertAdjacentHTML("afterbegin", markup);
     this._spinner = document.createElement("div");
     this._spinner.innerHTML = `<div class="spinner">
     <div class="loader"></div>
     </div>`;
-    this._ParentContainer.prepend(this._spinner);
+    this._parentContainer.prepend(this._spinner);
   }
 
   removeSpinner() {
@@ -97,7 +112,7 @@ class LocationListView {
   }
 
   clear() {
-    this._ParentContainer.innerHTML = "";
+    this._parentContainer.innerHTML = "";
   }
 }
 

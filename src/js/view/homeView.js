@@ -13,11 +13,8 @@ class HomeView {
 
   _generateMarkup(data) {
     console.log(data);
-    debugger
-    return data.map(
-      (
-        location
-                      ) => `<div class="location" data-country-name="${location.countryName}" data-location-name="${location.locationName}"  data-location-lat="${location.locationLat}" data-location-lon="${location.locationLon}" >
+    // debugger
+    return  `<div class="location" data-country-name="${location.countryName}" data-location-name="${location.locationName}"  data-location-lat="${location.locationLat}" data-location-lon="${location.locationLon}" >
                     <div class="weather_description">
                         <div class="location_detail">
                           <p class="location_name">
@@ -25,7 +22,7 @@ class HomeView {
                               class="icon icon-location"
                               name="location-outline"
                             ></ion-icon
-                            >${location.locationName},<br />${location.countryName}
+                            >${data.locationName},<br />${data.countryName}
                           </p>
                           <p class="forecast_date">${data.date}</p>
                         </div>
@@ -42,7 +39,7 @@ class HomeView {
                     </div>
                   </div
                 >`
-    );
+    
   }
 
   clear() {

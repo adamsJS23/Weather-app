@@ -176,18 +176,6 @@ class LocationView {
     this._parentContainer.querySelector(".section-3").innerHTML = "";
   }
 
-  addHandlerClick(handler) {
-    this._parentContainer.addEventListener("click", function (e) {
-      e.preventDefault();
-      const location = e.target.closest(".location");
-      if (!location) return;
-      const { locationLat, locationLon, locationName, countryName } =
-        e.target.closest(".location").dataset;
-
-      handler({ locationLat, locationLon, locationName, countryName });
-    });
-  }
-
   addHandlerHome(handler) {
     this._btnApp.addEventListener(
       "click",

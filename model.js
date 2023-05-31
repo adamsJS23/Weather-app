@@ -7,7 +7,7 @@ export const state = {
   searchedLocation: {},
   storedLocation: [],
   locationWeatherData: {},
-  storedLocationWeatherData: [],
+  userCoordinate: {},
   forecastOnScroll: 6,
 };
 
@@ -126,13 +126,13 @@ function getTomorrowForecast(tomorrowWeather) {
   };
 }
 
-function formatSearchedLocation(data) {
+export function formatSearchedLocation(data) {
   const { weatherData } = data;
   state.location = {
     locationName: data.locationName,
     countryName: data.countryName,
-    locationLat: data.lat,
-    locationLon: data.lon,
+    lat: data.lat,
+    lon: data.lon,
     temp: Math.round(weatherData.current.temp),
     date: extractDate(weatherData.current.dt),
     weatherDescription: weatherData.current.weather[0].description,
@@ -144,12 +144,7 @@ function formatSearchedLocation(data) {
 
 export async function gatherWeatherData(dataObject) {
   try {
-    const {
-      locationLat: lat,
-      locationLon: lon,
-      locationName,
-      countryName,
-    } = dataObject;
+    const { lat, lon, locationName, countryName } = dataObject;
 
     const forecastHourly = getHourlyForecast(
       state.searchedLocation.weatherData.hourly
@@ -158,6 +153,7 @@ export async function gatherWeatherData(dataObject) {
     const forecastDaily = getDailyForecast(
       state.searchedLocation.weatherData.daily
     );
+
     const { weatherData, aqi } = state.searchedLocation;
 
     state.locationWeatherData = {
@@ -263,12 +259,10 @@ function getAirQaulityIndex(value) {
   return aqi.find((obj) => obj.key === value);
 }
 
-localStorage.removeItem('locations');
-
 export function savedLocation() {
   state.storedLocation.push({
-    locationLat: state.location.locationLat,
-    locationLon: state.location.locationLon,
+    lat: state.location.lat,
+    lon: state.location.lon,
     countryName: state.location.countryName,
     locationName: state.location.locationName,
   });
@@ -278,25 +272,48 @@ export function savedLocation() {
   loadStoredLocation();
 }
 
-export async function fetchStoredLocationWeatherData(dataArray) {
+export async function fetchStoredLocationWeatherData(location) {
   //  1. fetch weather
-  dataArray.forEach(async function (location) {
-    const {
-      locationLat: lat,
-      locationLon: lon,
-      countryName,
-      locationName,
-    } = location;
-    // await countryName, locationName from countryCode
-    const weatherData = await fetchLocationWeatherData({ lat, lon });
-    //  2. formated searched location
-    state.searchedLocation = { lat, lon, countryName, locationName };
-    state.searchedLocation.weatherData = weatherData;
-    //  3. Push searched loaction into storedLocationWeatherData
-    const data = formatSearchedLocation(state.searchedLocation);
-    // console.log(data)
-    state.storedLocationWeatherData.push(data);
-  });
+  const { lat, lon, countryName, locationName } = location;
+  // await weather data
+  const weatherData = await fetchData(
+    `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
+      .toString()
+      .slice(-2)
+      .toLowerCase()}&units=metric&appid=${API_KEY}`
+  );
 
-  console.log(state.storedLocationWeatherData);
+  //  2. formatting data received
+  state.searchedLocation = { lat, lon, countryName, locationName };
+  state.searchedLocation.weatherData = weatherData;
+  const data = formatSearchedLocation(state.searchedLocation);
+
+  return data;
 }
+
+function geoLocateUser() {
+  return new Promise(function (resolved, reject) {
+    navigator.geolocation.getCurrentPosition(
+      (postion) => resolved(postion),
+      (err) => reject(err)
+    );
+  });
+}
+
+export async function getUserCoordinate() {
+  geoLocateUser()
+    .then((position) => {
+      const { longitude: lon, latitude: lat } = position.coords;
+      state.userCoordinate = { lon, lat };
+      console.log(state.userCoordinate);
+    })
+    .catch((err) => console.log(err));
+
+  const data = await fetchData(
+    `http://api.openweathermap.org/geo/1.0/reverse?lat=45.4642035&lon=9.189982&appid=${API_KEY}`
+  );
+
+  console.log(data);
+}
+// {lon: 9.189982, lat: 45.4642035}
+// localStorage.removeItem("locations");
