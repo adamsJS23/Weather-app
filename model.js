@@ -315,5 +315,17 @@ export async function getUserCoordinate() {
 
   console.log(data);
 }
+
+export async function fetchUserCoordinateData(userCoordinate) {
+  const { lat, lon } = userCoordinate;
+  const data = await fetchData(
+    `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}5&lon=${lon}&appid=${API_KEY}`
+  );
+  const { country: countryCode, name: locationName } = data[0];
+  state.searchedLocation = { lat, lon, countryCode, locationName };
+
+  console.log(data);
+  console.log(state.searchedLocation);
+}
 // {lon: 9.189982, lat: 45.4642035}
 // localStorage.removeItem("locations");
