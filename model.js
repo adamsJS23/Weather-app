@@ -63,7 +63,6 @@ export async function fetchLocationAirQuality(dataObject) {
     const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
     const aqiObject = getAirQaulityIndex(aqi);
     state.searchedLocation.aqi = aqiObject;
-
     formatSearchedLocation(state.searchedLocation);
   } catch (err) {
     console.error(err);
@@ -157,8 +156,10 @@ export async function gatherWeatherData(dataObject) {
     const { weatherData, aqi } = state.searchedLocation;
 
     state.locationWeatherData = {
-      locationName: locationName,
-      countryName: countryName,
+      locationName,
+      countryName,
+      lat,
+      lon,
       temp: Math.round(weatherData.current.temp),
       visibility: formatKmperHour(weatherData.current.visibility),
       uvi: Math.round(weatherData.current.uvi),
@@ -305,15 +306,12 @@ export async function getUserCoordinate() {
     .then((position) => {
       const { longitude: lon, latitude: lat } = position.coords;
       state.userCoordinate = { lon, lat };
-      console.log(state.userCoordinate);
     })
     .catch((err) => console.log(err));
 
   const data = await fetchData(
     `http://api.openweathermap.org/geo/1.0/reverse?lat=45.4642035&lon=9.189982&appid=${API_KEY}`
   );
-
-  console.log(data);
 }
 
 export async function fetchUserCoordinateData(userCoordinate) {
@@ -323,9 +321,6 @@ export async function fetchUserCoordinateData(userCoordinate) {
   );
   const { country: countryCode, name: locationName } = data[0];
   state.searchedLocation = { lat, lon, countryCode, locationName };
-
-  console.log(data);
-  console.log(state.searchedLocation);
 }
 // {lon: 9.189982, lat: 45.4642035}
 // localStorage.removeItem("locations");

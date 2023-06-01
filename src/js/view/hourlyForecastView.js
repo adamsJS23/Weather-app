@@ -1,14 +1,14 @@
 class HourlyForecastView {
-  _ParentContainer = document.querySelector(".result_container");
+  _parentContainer = document.querySelector(".result_container");
   _data;
 
   render(data, scrollTo) {
     this._data = data;
     // this._parentContainer.querySelector(".hourly_forecast").innerHTML = "";
-    this._ParentContainer
-      .querySelector(".section-3")
+    this._parentContainer
+      .querySelector(".section-2").querySelector(".hourly_forescast")
       .insertAdjacentHTML(
-        "afterbegin",
+        "beforeend",
         this._generateMarkup(this._data, scrollTo)
       );
   }
@@ -50,7 +50,7 @@ class HourlyForecastView {
   }
 
   addHandlerArrowClicked(handler) {
-    this._ParentContainer.addEventListener("click", function (e) {
+    this._parentContainer.addEventListener("click", function (e) {
       const btn = e.target.closest("button");
       if (!btn) return;
       let { scrollTo } = btn.dataset;
@@ -59,6 +59,10 @@ class HourlyForecastView {
       if (scrollTo < 0) scrollTo = 7;
       handler(scrollTo);
     });
+  }
+
+  clear() {
+    this._parentContainer.querySelector(".section-2").querySelector('.hourly_forescast').innerHTML = "";
   }
 }
 

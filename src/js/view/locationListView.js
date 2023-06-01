@@ -14,7 +14,6 @@ class LocationListView {
 
   render(data) {
 
-    console.log(data);
     this._data = data;
     this._parentContainer.insertAdjacentHTML(
       "afterbegin",

@@ -141,8 +141,10 @@ class LocationView {
         <div class="dot dot-3"></div>
       </li>
     </ul>
+    <div class="hourly_forescast"></div>
   </div>
   <div class=" section section-3">
+  
   </div>`;
   }
 
@@ -170,10 +172,6 @@ class LocationView {
 
   _enableInput() {
     this._iptAdd.disabled = false;
-  }
-
-  clear() {
-    this._parentContainer.querySelector(".section-3").innerHTML = "";
   }
 
   addHandlerHome(handler) {

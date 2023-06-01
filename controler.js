@@ -9,12 +9,13 @@ import * as model from "./model.js"; // Import every thing from the model
 import locationView from "./src/js/view/locationView.js";
 import locationListView from "./src/js/view/locationListView.js";
 import { TIME_CLEAR_ERROR } from "./config.js";
+import hourlyForecastView from "./src/js/view/hourlyForecastView.js";
+import tomorrowView from "./src/js/view/tomorrowView.js";
 
 async function ctrlGetUserPosition() {
   locationListView.renderSpinner();
 
   await model.getUserCoordinate();
-  console.log(model.state.userCoordinate);
   await model.fetchUserCoordinateData(model.state.userCoordinate);
   await model.fectchLocationData(model.state.searchedLocation);
   await model.fetchLocationWeatherData(model.state.searchedLocation);
@@ -30,7 +31,7 @@ async function ctrlGetUserPosition() {
   HourlyForecastView.render(model.partialHourlyForecast(0), 0);
 
   // LocationMapView.render feature
-  MapView.render();
+  MapView.render(model.state.locationWeatherData);
 }
 
 function controlLoad() {
@@ -41,7 +42,7 @@ function ctrlHome() {
   try {
     locationListView.clear();
     if (!model.state.storedLocation.length) {
-      throw 'There is not stored locations'
+      throw "There is not stored locations";
     }
     model.state.storedLocation.forEach(async function (location) {
       try {
@@ -113,7 +114,7 @@ async function ctrlFetchLocationCoordinate() {
 
 async function controlDisplayLocation(data) {
   try {
-    console.log(data);
+    console.log(model.state.locationWeatherData);
     locationListView.renderSpinner();
     await model.fetchLocationWeatherData(data);
     await model.fetchLocationAirQuality(data);
@@ -123,7 +124,7 @@ async function controlDisplayLocation(data) {
     HourlyForecastView.render(model.partialHourlyForecast(0), 0);
 
     // LocationMapView.render feature
-    MapView.render();
+    MapView.render(model.state.locationWeatherData);
   } catch (err) {
     showErrorMessage(err);
   }
@@ -132,25 +133,27 @@ async function controlDisplayLocation(data) {
 function controlMenu(targetMenu) {
   if (targetMenu === "today") {
     // Same code
-    LocationView.clear();
+    tomorrowView.clear();
     HourlyForecastView.render(model.partialHourlyForecast(0), 0);
-    MapView.render();
+    MapView.render(model.state.locationWeatherData);
   }
   if (targetMenu === "tomorrow") {
-    locationView.clear();
+    tomorrowView.clear();
+    hourlyForecastView.clear();
     TomorrowView.render(model.state.locationWeatherData.tomorrow);
   }
 
   if (targetMenu === "next_7_day") {
-    locationView.clear();
+    tomorrowView.clear();
+    hourlyForecastView.clear();
     DailyForescastView.render(model.state.locationWeatherData);
   }
 }
 
 function controlPartialHourlyForecast(scrollTo) {
-  LocationView.clear();
+  hourlyForecastView.clear();
   HourlyForecastView.render(model.partialHourlyForecast(scrollTo), scrollTo);
-  MapView.render();
+  // MapView.render();
 }
 
 function showErrorMessage(err) {
@@ -170,7 +173,6 @@ function init() {
   LocationListView.addHandlerAdd(ctrlFetchLocationCoordinate);
   LocationListView.addHandlerEnter(ctrlFetchLocationCoordinate);
   LocationListView.addHandlerClick(controlDisplayLocation);
-  // LocationView.addHandlerClick(controlDisplayLocation);
   locationView.addHandlerMenuClick(controlMenu);
   LocationView.addHandlerHome(ctrlHome);
   HourlyForecastView.addHandlerArrowClicked(controlPartialHourlyForecast);

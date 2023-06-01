@@ -75,6 +75,10 @@ class TomorrowView {
   </div>`;
   }
 
+  clear() {
+    this._parentContainer.querySelector(".section-3").innerHTML = "";
+  }
+
   // _generateTomorrowMarkup() {}
 }
 
