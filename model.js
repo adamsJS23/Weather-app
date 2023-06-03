@@ -322,5 +322,4 @@ export async function fetchUserCoordinateData(userCoordinate) {
   const { country: countryCode, name: locationName } = data[0];
   state.searchedLocation = { lat, lon, countryCode, locationName };
 }
-// {lon: 9.189982, lat: 45.4642035}
 // localStorage.removeItem("locations");

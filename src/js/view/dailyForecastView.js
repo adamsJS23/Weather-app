@@ -11,7 +11,7 @@ class DailyForecastView {
   }
 
   _generateMarkup(data) {
-    return `<div class="next_7_days"><ul class="list_2">
+    return `<div class="next_8_days"><ul class="list_2">
     ${this._generateDailyForecastMarkup(data)}   
   </ul></div>`;
   }

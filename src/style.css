@@ -12,7 +12,9 @@ main {
   margin: 0 auto;
   padding: 2.4rem;
   font-family: "lato", sans-serif;
-  background-color: #2a383f;
+  /* background-color: #2a383f; */
+  /* background-color: #2c164f; */
+  background-color: #160b27;
 }
 
 .search_container {
@@ -21,7 +23,7 @@ main {
   justify-content: center;
   gap: 0.6rem;
   margin-bottom: 2.4rem;
-  color: #fbf5f0;
+  color: white;
 }
 
 .icon-ipt {
@@ -32,7 +34,9 @@ main {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background-color: #151c20;
+  /* background-color: #151c20; */
+  background-color: #21113b;
+
   border-radius: 100vmax;
   padding: 0.6rem 1.2rem;
 }
@@ -44,17 +48,16 @@ main {
   display: inline-block;
   position: relative;
   margin-right: auto;
-  color: #eaebec;
-  background-color: #151c20;
+  color: white;
+  /* background-color: #151c20; */
+  background-color: #21113b;
 }
 
 .ipt-add:focus {
   outline: none;
 }
 
-.icon {
-  font-size: 1.8rem;
-}
+
 
 .btn {
   display: flex;
@@ -64,11 +67,13 @@ main {
   width: 3rem;
   border: none;
   border-radius: 50%;
+  background-color: #6f38c5;
 }
 
 .btn-app {
   color: #eaebec;
-  background-color: #151c20;
+  /* background-image: radial-gradient(circle, #21113b, #291549, #311958, #3a1e67, #432276); */
+  /* background-image: linear-gradient(to bottom, #21113b, #291549, #311958, #3a1e67, #432276); */
   cursor: pointer;
 }
 
@@ -91,12 +96,27 @@ main {
 
 .location,
 .location_complete_info {
-  background-image: linear-gradient(to right, #db9864, #db6464);
+  /* background-image: linear-gradient(to right, #db9864, #db6464); */
+  /* background-image: linear-gradient(to bottom, #5c4288, #523b79, #48346a, #3e2d5c, #35264e); */
+  /* background-image: linear-gradient(to bottom, #6432b1, #5c2ea2, #532a93, #4b2684, #432276); */
+  background-image: linear-gradient(
+    to bottom,
+    #9a74d6,
+    #a583db,
+    #b091df,
+    #baa0e4,
+    #c5afe8
+  );
   color: #fbf5f0;
   /* padding: 0 1.2rem 1.2rem; */
   padding: 0 1.2rem 2.4rem 1.2rem;
   border-radius: 9px;
   cursor: pointer;
+}
+
+.tomorrow_info {
+  background-image: linear-gradient(to bottom, #21113b, #21113b);
+  /* background-color: #21113b; */
 }
 
 .location_complete_info {
@@ -214,15 +234,36 @@ main {
 .line-long {
   width: 39px;
   height: 5px;
-  background-color: #bab2a7;
+  /* background-color: #bab2a7; */
+  background-image: linear-gradient(
+    to bottom,
+    #9a74d6,
+    #a583db,
+    #b091df,
+    #baa0e4,
+    #c5afe8
+  );
   border-radius: 100vmax;
 }
 
-.line-short,
-.dot {
+.line-short {
   width: 5px;
   height: 5px;
+  background-image: linear-gradient(
+    to bottom,
+    #9a74d6,
+    #a583db,
+    #b091df,
+    #baa0e4,
+    #c5afe8
+  );
+  border-radius: 50%;
+}
+
+.dot {
   background-color: #bab2a7;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
 }
 
@@ -279,7 +320,6 @@ main {
   gap: 0.6rem;
   flex: 0 0 100%;
   overflow: hidden;
-  /* position: relative; */
 }
 
 .arrow {
@@ -289,7 +329,7 @@ main {
   width: 2rem;
   height: 2rem;
   color: #eaebec;
-  background-color: #151c20;
+  background-color: #6f38c5;
   cursor: pointer;
   position: absolute;
   border-radius: 50%;
@@ -299,13 +339,12 @@ main {
 
 .arrow-left {
   left: 0;
-  transform: translate(-100%, -578%);
+  transform: translate(-100%, 380%);
 }
 
 .arrow-right {
   right: 0;
-  transform: translate(100%, -578%);
-  /* transform: translateY(-50%); */
+  transform: translate(100%, 380%);
 }
 
 .forecast {
@@ -317,8 +356,14 @@ main {
 
   padding: 0.4rem 0.5rem;
   border-radius: 9px;
-  background-color: #d0e6f0;
-  color: #263239;
+  /* background-color: #d0e6f0; */
+  /* background-color: #f1ebf9; */
+  /* background-image: linear-gradient(to bottom, #9a74d6, #a583db, #b091df, #baa0e4, #c5afe8); */
+  /* background-image: radial-gradient(circle, #9a74d6, #a583db, #b091df, #baa0e4, #c5afe8); */
+  /* background-image: linear-gradient(to bottom, #21113b, #21113b); */
+  background-color: #21113b;
+  /* color: #263239; */
+  color: white;
 
   /* background-color: #263239; */
   /* color: #eaebec; */
@@ -345,8 +390,9 @@ main {
   border-radius: 9px;
 }
 
-.next_7_days {
-  background-color: #d0e6f0;
+.next_8_days {
+  background-color: #21113b;
+  color: white;
   /* background-color: #eaebec; */
   margin-top: 1rem;
   border-radius: 9px;
@@ -362,7 +408,7 @@ main {
   grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
-  color: #263239;
+  /* color: #263239; */
 }
 
 .list_2_item span:first-child {
@@ -372,7 +418,15 @@ main {
 .line_2 {
   width: 39px;
   height: 5px;
-  background-image: linear-gradient(to right, #db9864, #db6464);
+  /* background-image: linear-gradient(to right, #db9864, #db6464); */
+  background-image: linear-gradient(
+    to bottom,
+    #9a74d6,
+    #a583db,
+    #b091df,
+    #baa0e4,
+    #c5afe8
+  );
   border-radius: 100vmax;
 }
 
@@ -387,10 +441,6 @@ main {
 /****************************************************/
 /*****************Tomorow View***********************/
 .tomorrow_location_header {
-  /* display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-template-rows: 50%;
-  align-items: center; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -410,7 +460,7 @@ main {
   align-self: flex-end;
 }
 /* *****************Spinner****************************** */
-.spinner{
+.spinner {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -420,10 +470,9 @@ main {
   background-color: rgba(208, 230, 240, 0.217);
   border-radius: 8px;
 
-  top: 10%;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  /* transform: translateY(-50%); */
 }
 
 .loader {
@@ -431,39 +480,51 @@ main {
   width: 3rem;
   border-left: 5px solid transparent;
   border-top: 5px solid transparent;
-  border-right: 5px solid #db6464;
+  border-right: 5px solid #21113b;
   border-bottom: 5px solid transparent;
   border-radius: 50%;
   z-index: 999;
-  animation: rotating linear .5s infinite;
+  animation: rotating linear 0.5s infinite;
 }
 
-@keyframes rotating{
-  0%{
-    transform:rotate(0deg)}
-  
-  100%{
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
     transform: rotate(360deg);
   }
 }
 
 /****************End css tomorrow view****************/
 
-.error,.message {
-  font-size: 1.2rem;
+.message_box {
+  min-width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.8rem;
-  background-color: #3f4c52;
+  font-size: 1.2rem;
+  background-color: #21113b;
   padding: 0.8rem 1.6rem;
-  border-radius: 100vmax;
+  border-radius: 8px;
+  
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  z-index: 999;
 }
 
-.error{
+.error {
   color: #ffcaca;
-  
 }
-.message{
-color: #d0e6f0;
+.message {
+  color: #d0e6f0;
+}
+
+.icon {
+  font-size: 1.8rem;
 }

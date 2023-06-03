@@ -136,8 +136,8 @@ class LocationView {
         Tomorrow
         <div class="dot dot-2"></div>
       </li>
-      <li class="list_1_item next_7_day list_1_item-3">
-        Next 7 days
+      <li class="list_1_item next_8_day list_1_item-3">
+        Next 8 days
         <div class="dot dot-3"></div>
       </li>
     </ul>
@@ -204,9 +204,9 @@ class LocationView {
             .classList.add("list_1_item-active");
           document.querySelector(".dot-2").classList.add("dot-active");
         }
-        if (targetMenu === "next_7_day") {
+        if (targetMenu === "next_8_day") {
           document
-            .querySelector(".next_7_day")
+            .querySelector(".next_8_day")
             .classList.add("list_1_item-active");
           document.querySelector(".dot-3").classList.add("dot-active");
         }

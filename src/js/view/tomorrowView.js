@@ -10,7 +10,7 @@ class TomorrowView {
   }
 
   _generateMarkup(data) {
-    return `<div class="location_complete_info">
+    return `<div class="location_complete_info tomorrow_info">
     <div class="tomorrow_location_header">
       <p class="forecast_date">${data.date}</p>
       <img
