@@ -38,7 +38,7 @@ class LocationView {
         />
   </div>
   <div class="weather_temp_box">
-    <span class="weather_temp">${data.temp}</span>
+    <span class="weather_temp">${data.temp}<span class="celsius">°C</span></span>
     <span class="weather_description">${data.weatherDescription}</span>
   </div>
       
