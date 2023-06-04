@@ -54,9 +54,10 @@ class HourlyForecastView {
       const btn = e.target.closest("button");
       if (!btn) return;
       let { scrollTo } = btn.dataset;
+
       btn.classList.contains("arrow-left") ? scrollTo-- : scrollTo++;
-      if (scrollTo > 7) scrollTo = 0;
-      if (scrollTo < 0) scrollTo = 7;
+      if (scrollTo > 3) scrollTo = 0;
+      if (scrollTo < 0) scrollTo = 3;
       handler(scrollTo);
     });
   }

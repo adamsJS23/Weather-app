@@ -78,7 +78,7 @@ function getHourlyForecast(dataArray) {
     const temp = Math.round(hourForecast.temp);
     const { icon } = hourForecast.weather[0];
     return { hour, temp, icon };
-  });
+  }).slice(0,24);
 }
 
 function getDailyForecast(dataArray) {
