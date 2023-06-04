@@ -71,14 +71,16 @@ export async function fetchLocationAirQuality(dataObject) {
 }
 
 function getHourlyForecast(dataArray) {
-  return dataArray.map((hourForecast) => {
-    const hour = new Intl.DateTimeFormat("en-GB", { hour: "2-digit" }).format(
-      hourForecast.dt * 1000
-    );
-    const temp = Math.round(hourForecast.temp);
-    const { icon } = hourForecast.weather[0];
-    return { hour, temp, icon };
-  }).slice(0,24);
+  return dataArray
+    .map((hourForecast) => {
+      const hour = new Intl.DateTimeFormat("en-GB", { hour: "2-digit" }).format(
+        hourForecast.dt * 1000
+      );
+      const temp = Math.round(hourForecast.temp);
+      const { icon } = hourForecast.weather[0];
+      return { hour, temp, icon };
+    })
+    .slice(0, 24);
 }
 
 function getDailyForecast(dataArray) {
@@ -292,7 +294,7 @@ export async function fetchStoredLocationWeatherData(location) {
   return data;
 }
 
-function geoLocateUser() {
+export function geoLocateUser() {
   return new Promise(function (resolved, reject) {
     navigator.geolocation.getCurrentPosition(
       (postion) => resolved(postion),
@@ -301,17 +303,10 @@ function geoLocateUser() {
   });
 }
 
-export async function getUserCoordinate() {
-  geoLocateUser()
-    .then((position) => {
-      const { longitude: lon, latitude: lat } = position.coords;
+export  function extractUserCoordinate(geoData) {  
+      const { longitude: lon, latitude: lat } = geoData.coords;
       state.userCoordinate = { lon, lat };
-    })
-    .catch((err) => console.log(err));
-
-  const data = await fetchData(
-    `https://api.openweathermap.org/geo/1.0/reverse?lat=45.4642035&lon=9.189982&appid=${API_KEY}`
-  );
+      return state.userCoordinate
 }
 
 export async function fetchUserCoordinateData(userCoordinate) {

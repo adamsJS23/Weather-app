@@ -12,7 +12,8 @@ import tomorrowView from "./src/js/view/tomorrowView.js";
 
 async function ctrlGetUserPosition() {
   HomeView.renderSpinner();
-  await model.getUserCoordinate();
+  const geoData = await model.geoLocateUser();
+  const coordinate = model.extractUserCoordinate(geoData);
   await model.fetchUserCoordinateData(model.state.userCoordinate);
   await model.fectchLocationData(model.state.searchedLocation);
   await model.fetchLocationWeatherData(model.state.searchedLocation);
