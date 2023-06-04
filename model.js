@@ -58,7 +58,7 @@ export async function fetchLocationAirQuality(dataObject) {
   try {
     const { lat, lon } = dataObject;
     const aqiData = await fetchData(
-      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
     const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
     const aqiObject = getAirQaulityIndex(aqi);
@@ -310,14 +310,14 @@ export async function getUserCoordinate() {
     .catch((err) => console.log(err));
 
   const data = await fetchData(
-    `http://api.openweathermap.org/geo/1.0/reverse?lat=45.4642035&lon=9.189982&appid=${API_KEY}`
+    `https://api.openweathermap.org/geo/1.0/reverse?lat=45.4642035&lon=9.189982&appid=${API_KEY}`
   );
 }
 
 export async function fetchUserCoordinateData(userCoordinate) {
   const { lat, lon } = userCoordinate;
   const data = await fetchData(
-    `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}5&lon=${lon}&appid=${API_KEY}`
+    `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}5&lon=${lon}&appid=${API_KEY}`
   );
   const { country: countryCode, name: locationName } = data[0];
   state.searchedLocation = { lat, lon, countryCode, locationName };
