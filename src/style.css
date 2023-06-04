@@ -12,8 +12,6 @@ main {
   margin: 0 auto;
   padding: 2.4rem;
   font-family: "lato", sans-serif;
-  /* background-color: #2a383f; */
-  /* background-color: #2c164f; */
   background-color: #160b27;
 }
 
@@ -34,9 +32,7 @@ main {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  /* background-color: #151c20; */
   background-color: #21113b;
-
   border-radius: 100vmax;
   padding: 0.6rem 1.2rem;
 }
@@ -49,7 +45,6 @@ main {
   position: relative;
   margin-right: auto;
   color: white;
-  /* background-color: #151c20; */
   background-color: #21113b;
 }
 
@@ -72,8 +67,6 @@ main {
 
 .btn-app {
   color: #eaebec;
-  /* background-image: radial-gradient(circle, #21113b, #291549, #311958, #3a1e67, #432276); */
-  /* background-image: linear-gradient(to bottom, #21113b, #291549, #311958, #3a1e67, #432276); */
   cursor: pointer;
 }
 
@@ -96,9 +89,6 @@ main {
 
 .location,
 .location_complete_info {
-  /* background-image: linear-gradient(to right, #db9864, #db6464); */
-  /* background-image: linear-gradient(to bottom, #5c4288, #523b79, #48346a, #3e2d5c, #35264e); */
-  /* background-image: linear-gradient(to bottom, #6432b1, #5c2ea2, #532a93, #4b2684, #432276); */
   background-image: linear-gradient(
     to bottom,
     #9a74d6,
@@ -108,7 +98,6 @@ main {
     #c5afe8
   );
   color: #fbf5f0;
-  /* padding: 0 1.2rem 1.2rem; */
   padding: 0 1.2rem 2.4rem 1.2rem;
   border-radius: 9px;
   cursor: pointer;
@@ -116,7 +105,6 @@ main {
 
 .tomorrow_info {
   background-image: linear-gradient(to bottom, #21113b, #21113b);
-  /* background-color: #21113b; */
 }
 
 .location_complete_info {
@@ -172,13 +160,7 @@ main {
   font-size: 1.6rem;
   align-self: flex-start;
 }
-/* .weather_temp::after {
-  content: "°C";
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(50%, 34%);
-} */
+
 
 .weather_description {
   align-self: center;
@@ -238,7 +220,6 @@ main {
 .line-long {
   width: 39px;
   height: 5px;
-  /* background-color: #bab2a7; */
   background-image: linear-gradient(
     to bottom,
     #9a74d6,
@@ -360,17 +341,8 @@ main {
 
   padding: 0.4rem 0.5rem;
   border-radius: 9px;
-  /* background-color: #d0e6f0; */
-  /* background-color: #f1ebf9; */
-  /* background-image: linear-gradient(to bottom, #9a74d6, #a583db, #b091df, #baa0e4, #c5afe8); */
-  /* background-image: radial-gradient(circle, #9a74d6, #a583db, #b091df, #baa0e4, #c5afe8); */
-  /* background-image: linear-gradient(to bottom, #21113b, #21113b); */
   background-color: #21113b;
-  /* color: #263239; */
   color: white;
-
-  /* background-color: #263239; */
-  /* color: #eaebec; */
 }
 
 .hourly_forcast_hour {
@@ -397,7 +369,6 @@ main {
 .next_8_days {
   background-color: #21113b;
   color: white;
-  /* background-color: #eaebec; */
   margin-top: 1rem;
   border-radius: 9px;
   padding: 1.2rem 2.4rem;
@@ -412,7 +383,6 @@ main {
   grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
-  /* color: #263239; */
 }
 
 .list_2_item span:first-child {
@@ -422,7 +392,6 @@ main {
 .line_2 {
   width: 39px;
   height: 5px;
-  /* background-image: linear-gradient(to right, #db9864, #db6464); */
   background-image: linear-gradient(
     to bottom,
     #9a74d6,
@@ -451,7 +420,6 @@ main {
   height: 5rem;
   padding-top: 1.2rem;
   margin-bottom: 2.2rem;
-  /* padding: 1.2rem; */
 }
 
 .Tomorrow_weather_description {
@@ -463,7 +431,7 @@ main {
 .tomorrow_forecast_date {
   align-self: flex-end;
 }
-/* *****************Spinner****************************** */
+
 .spinner {
   display: flex;
   justify-content: center;
