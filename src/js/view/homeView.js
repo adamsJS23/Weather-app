@@ -15,6 +15,7 @@ class HomeView {
 
   render(data) {
     this._data = data;
+    if (!data) return;
     this._parentContainer.insertAdjacentHTML(
       "afterbegin",
       this._generateMarkup(this._data)

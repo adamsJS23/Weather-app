@@ -9,24 +9,26 @@ import HomeView from "./src/js/view/homeView.js";
 import { TIME_CLEAR_ERROR } from "./config.js";
 import hourlyForecastView from "./src/js/view/hourlyForecastView.js";
 import tomorrowView from "./src/js/view/tomorrowView.js";
+import homeView from "./src/js/view/homeView.js";
 
 async function ctrlGetUserPosition() {
-  HomeView.renderSpinner();
-  const geoData = await model.geoLocateUser();
-  const coordinate = model.extractUserCoordinate(geoData);
-  await model.fetchUserCoordinateData(model.state.userCoordinate);
-  await model.fectchLocationData(model.state.searchedLocation);
-  await model.fetchLocationWeatherData(model.state.searchedLocation);
-  await model.fetchLocationAirQuality(model.state.searchedLocation);
-  model.gatherWeatherData(model.state.searchedLocation);
-  HomeView.removeSpinner();
-  LocationView.render(model.state.locationWeatherData);
-  HourlyForecastView.render(model.partialHourlyForecast(0), 0);
-  MapView.render(model.state.locationWeatherData);
-}
+  try{
 
-function controlLoad() {
-  ctrlGetUserPosition();
+    HomeView.renderSpinner();
+    const geoData = await model.geoLocateUser();
+    const coordinate = model.extractUserCoordinate(geoData);
+    await model.fetchUserCoordinateData(model.state.userCoordinate);
+    await model.fectchLocationData(model.state.searchedLocation);
+    await model.fetchLocationWeatherData(model.state.searchedLocation);
+    await model.fetchLocationAirQuality(model.state.searchedLocation);
+    model.gatherWeatherData(model.state.searchedLocation);
+    HomeView.removeSpinner();
+    LocationView.render(model.state.locationWeatherData);
+    HourlyForecastView.render(model.partialHourlyForecast(0), 0);
+    MapView.render(model.state.locationWeatherData);
+  }catch(err){
+    homeView.render()
+  }
 }
 
 function ctrlHome() {
@@ -82,7 +84,7 @@ async function ctrlFetchLocationCoordinate() {
     // Get user query
     const query = HomeView.getQuery();
     if (!query) {
-      throw "Empty query, please enter valid location name";
+      throw new Error("Empty query, please enter valid location name");
     }
     HomeView.renderSpinner();
     // await the lat, lon, countryCode from query
@@ -100,6 +102,8 @@ async function ctrlFetchLocationCoordinate() {
     model.savedLocation();
   } catch (err) {
     showErrorMessage(err);
+  } finally {
+    HomeView.removeSpinner();
   }
 }
 
@@ -160,7 +164,7 @@ function showMessage(err) {
 }
 
 init();
-
+ctrlGetUserPosition();
 function init() {
   HomeView.addHandlerAdd(ctrlFetchLocationCoordinate);
   HomeView.addHandlerEnter(ctrlFetchLocationCoordinate);
@@ -168,5 +172,4 @@ function init() {
   locationView.addHandlerMenuClick(controlMenu);
   LocationView.addHandlerHome(ctrlHome);
   HourlyForecastView.addHandlerArrowClicked(controlPartialHourlyForecast);
-  controlLoad();
 }
