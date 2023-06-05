@@ -6,14 +6,13 @@ import MapView from "./src/js/view/mapView.js";
 import * as model from "./model.js"; // Import every thing from the model
 import locationView from "./src/js/view/locationView.js";
 import HomeView from "./src/js/view/homeView.js";
-import { TIME_CLEAR_ERROR } from "./config.js";
+import { TIME_BEFORE_CLEAR } from "./config.js";
 import hourlyForecastView from "./src/js/view/hourlyForecastView.js";
 import tomorrowView from "./src/js/view/tomorrowView.js";
 import homeView from "./src/js/view/homeView.js";
 
 async function ctrlGetUserPosition() {
-  try{
-
+  try {
     HomeView.renderSpinner();
     const geoData = await model.geoLocateUser();
     const coordinate = model.extractUserCoordinate(geoData);
@@ -26,8 +25,13 @@ async function ctrlGetUserPosition() {
     LocationView.render(model.state.locationWeatherData);
     HourlyForecastView.render(model.partialHourlyForecast(0), 0);
     MapView.render(model.state.locationWeatherData);
-  }catch(err){
-    homeView.render()
+  } catch (err) {
+    showErrorMessage(err);
+    setTimeout(() => {
+      HomeView.render();
+    }, TIME_BEFORE_CLEAR);
+  } finally {
+    HomeView.removeSpinner();
   }
 }
 
@@ -47,6 +51,7 @@ function ctrlHome() {
       }
     });
   } catch (err) {
+    console.error(err);
     showMessage(err);
   }
 }
@@ -120,6 +125,7 @@ async function controlDisplayLocation(data) {
 
     MapView.render(model.state.locationWeatherData);
   } catch (err) {
+    console.error(err);
     showErrorMessage(err);
   }
 }
@@ -153,14 +159,14 @@ function controlPartialHourlyForecast(scrollTo) {
 function showErrorMessage(err) {
   console.error(err);
   HomeView.renderMessageBox(err);
-  setTimeout(() => HomeView.removeMessageBox(), TIME_CLEAR_ERROR);
+  setTimeout(() => HomeView.removeMessageBox(), TIME_BEFORE_CLEAR);
 }
 
 function showMessage(err) {
   // HomeView.renderMessage();
-  // setTimeout(() => HomeView.removeMessage(), TIME_CLEAR_ERROR);
+  // setTimeout(() => HomeView.removeMessage(), TIME_BEFORE_CLEAR);
   HomeView.renderMessageBox(err, true);
-  setTimeout(() => HomeView.removeMessageBox(), TIME_CLEAR_ERROR);
+  setTimeout(() => HomeView.removeMessageBox(), TIME_BEFORE_CLEAR);
 }
 
 init();

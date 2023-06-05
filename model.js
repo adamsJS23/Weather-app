@@ -1,4 +1,4 @@
-import { API_KEY, URL_ONE_CALL } from "./config.js";
+import { API_KEY, URL_ONE_CALL, URL_AIR_POLLUTION } from "./config.js";
 import { fetchData } from "./helper.js";
 import { URL_GEOCODE } from "./config.js";
 
@@ -37,36 +37,39 @@ export async function fectchLocationData(dataObject) {
     );
     state.searchedLocation.countryName = countryData[0].name.common;
   } catch (err) {
-    throw "Country not found";
+    throw err;
   }
 }
 
 export async function fetchLocationWeatherData(dataObject) {
-  const { lat, lon } = dataObject;
+  try {
+    const { lat, lon } = dataObject;
 
-  const weatherData = await fetchData(
-    `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
-      .toString()
-      .slice(-2)
-      .toLowerCase()}&units=metric&appid=${API_KEY}`
-  );
-  state.searchedLocation.weatherData = weatherData;
-  return weatherData;
+    const weatherData = await fetchData(
+      `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
+        .toString()
+        .slice(-2)
+        .toLowerCase()}&units=metric&appid=${API_KEY}`
+    );
+    state.searchedLocation.weatherData = weatherData;
+    return weatherData;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function fetchLocationAirQuality(dataObject) {
   try {
     const { lat, lon } = dataObject;
     const aqiData = await fetchData(
-      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+      `${URL_AIR_POLLUTION}air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
     const { aqi } = aqiData.list[0].main; // aqi stand for Air Quality Index
     const aqiObject = getAirQaulityIndex(aqi);
     state.searchedLocation.aqi = aqiObject;
     formatSearchedLocation(state.searchedLocation);
   } catch (err) {
-    console.error(err);
-    throw "Can not find air quality data";
+    throw err;
   }
 }
 
@@ -276,22 +279,26 @@ export function savedLocation() {
 }
 
 export async function fetchStoredLocationWeatherData(location) {
-  //  1. fetch weather
-  const { lat, lon, countryName, locationName } = location;
-  // await weather data
-  const weatherData = await fetchData(
-    `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
-      .toString()
-      .slice(-2)
-      .toLowerCase()}&units=metric&appid=${API_KEY}`
-  );
+  try {
+    //  1. fetch weather
+    const { lat, lon, countryName, locationName } = location;
+    // await weather data
+    const weatherData = await fetchData(
+      `${URL_ONE_CALL}onecall?lat=${lat}&lon=${lon}&lang=${navigator.language
+        .toString()
+        .slice(-2)
+        .toLowerCase()}&units=metric&appid=${API_KEY}`
+    );
 
-  //  2. formatting data received
-  state.searchedLocation = { lat, lon, countryName, locationName };
-  state.searchedLocation.weatherData = weatherData;
-  const data = formatSearchedLocation(state.searchedLocation);
+    //  2. formatting data received
+    state.searchedLocation = { lat, lon, countryName, locationName };
+    state.searchedLocation.weatherData = weatherData;
+    const data = formatSearchedLocation(state.searchedLocation);
 
-  return data;
+    return data;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function geoLocateUser() {
@@ -303,18 +310,22 @@ export function geoLocateUser() {
   });
 }
 
-export  function extractUserCoordinate(geoData) {  
-      const { longitude: lon, latitude: lat } = geoData.coords;
-      state.userCoordinate = { lon, lat };
-      return state.userCoordinate
+export function extractUserCoordinate(geoData) {
+  const { longitude: lon, latitude: lat } = geoData.coords;
+  state.userCoordinate = { lon, lat };
+  return state.userCoordinate;
 }
 
 export async function fetchUserCoordinateData(userCoordinate) {
-  const { lat, lon } = userCoordinate;
-  const data = await fetchData(
-    `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}5&lon=${lon}&appid=${API_KEY}`
-  );
-  const { country: countryCode, name: locationName } = data[0];
-  state.searchedLocation = { lat, lon, countryCode, locationName };
+  try {
+    const { lat, lon } = userCoordinate;
+    const data = await fetchData(
+      `${URL_GEOCODE}reverse?lat=${lat}5&lon=${lon}&appid=${API_KEY}`
+    );
+    const { country: countryCode, name: locationName } = data[0];
+    state.searchedLocation = { lat, lon, countryCode, locationName };
+  } catch (err) {
+    throw err;
+  }
 }
 // localStorage.removeItem("locations");
