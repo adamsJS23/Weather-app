@@ -19,9 +19,26 @@ class MapView {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this._map);
 
+    this.renderMarker(data)
+  }
+
+  renderMarker(data){
+    const { lat, lon, temp, locationName, countryName } = data;
     L.marker([lat, lon])
       .addTo(this._map)
-      .bindPopup("A pretty CSS popup.<br> Easily customizable.")
+      .bindPopup(
+        L.popup({
+          maxHeight: 100,
+          maxWidth: 300,
+          autoClose: false,
+          closeOnClick: false,
+          closeButton:false,
+          className: `popup`,
+        })
+      )
+      .setPopupContent(
+        `${locationName}, ${temp}°`
+      )
       .openPopup();
   }
 

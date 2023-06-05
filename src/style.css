@@ -52,8 +52,6 @@ main {
   outline: none;
 }
 
-
-
 .btn {
   display: flex;
   align-items: center;
@@ -160,7 +158,6 @@ main {
   font-size: 1.6rem;
   align-self: flex-start;
 }
-
 
 .weather_description {
   align-self: center;
@@ -481,7 +478,7 @@ main {
   background-color: #21113b;
   padding: 0.8rem 1.6rem;
   border-radius: 8px;
-  
+
   position: absolute;
   top: 0%;
   left: 50%;
@@ -499,4 +496,9 @@ main {
 
 .icon {
   font-size: 1.8rem;
+}
+
+/* leafLet popup */
+.popup {
+  color: white;
 }
