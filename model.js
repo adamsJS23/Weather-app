@@ -146,48 +146,44 @@ export function formatSearchedLocation(data) {
   return state.location;
 }
 
-export async function gatherWeatherData(dataObject) {
-  try {
-    const { lat, lon, locationName, countryName } = dataObject;
+export function gatherWeatherData(dataObject) {
+  const { lat, lon, locationName, countryName } = dataObject;
 
-    const forecastHourly = getHourlyForecast(
-      state.searchedLocation.weatherData.hourly
-    );
+  const forecastHourly = getHourlyForecast(
+    state.searchedLocation.weatherData.hourly
+  );
 
-    const forecastDaily = getDailyForecast(
-      state.searchedLocation.weatherData.daily
-    );
+  const forecastDaily = getDailyForecast(
+    state.searchedLocation.weatherData.daily
+  );
 
-    const { weatherData, aqi } = state.searchedLocation;
+  const { weatherData, aqi } = state.searchedLocation;
 
-    state.locationWeatherData = {
-      locationName,
-      countryName,
-      lat,
-      lon,
-      temp: Math.round(weatherData.current.temp),
-      visibility: formatKmperHour(weatherData.current.visibility),
-      uvi: Math.round(weatherData.current.uvi),
-      humidity: formatPercentage(weatherData.current.humidity),
-      feelsLike: Math.round(weatherData.current.feels_like),
-      pressure: Math.round(weatherData.current.pressure / 100),
-      windSpeed: formatKmperHour(
-        Math.round(weatherData.current.wind_speed),
-        true
-      ),
-      clouds: formatPercentage(weatherData.current.clouds),
-      date: extractDate(weatherData.current.dt),
-      weatherDescription: weatherData.current.weather[0].description,
-      icon: weatherData.current.weather[0].icon,
-      hourly: forecastHourly,
-      daily: forecastDaily,
-      tomorrow: getTomorrowForecast(weatherData.daily[1]),
-      aqi: aqi.value,
-    };
-    return state.locationWeatherData;
-  } catch (err) {
-    throw err;
-  }
+  state.locationWeatherData = {
+    locationName,
+    countryName,
+    lat,
+    lon,
+    temp: Math.round(weatherData.current.temp),
+    visibility: formatKmperHour(weatherData.current.visibility),
+    uvi: Math.round(weatherData.current.uvi),
+    humidity: formatPercentage(weatherData.current.humidity),
+    feelsLike: Math.round(weatherData.current.feels_like),
+    pressure: Math.round(weatherData.current.pressure / 100),
+    windSpeed: formatKmperHour(
+      Math.round(weatherData.current.wind_speed),
+      true
+    ),
+    clouds: formatPercentage(weatherData.current.clouds),
+    date: extractDate(weatherData.current.dt),
+    weatherDescription: weatherData.current.weather[0].description,
+    icon: weatherData.current.weather[0].icon,
+    hourly: forecastHourly,
+    daily: forecastDaily,
+    tomorrow: getTomorrowForecast(weatherData.daily[1]),
+    aqi: aqi.value,
+  };
+  return state.locationWeatherData;
 }
 
 function formatPercentage(value) {
